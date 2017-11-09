@@ -293,7 +293,7 @@ getKnotVector(double *t,int dimT, double *u, int nKnots, int nCP, int deg)
 
 static int
 EG_Linear_LS_Bspline_Optimization(int m, double XYZ[], double t[], int header[],
-		double *spline, double *error, double *rms, double *Linf)
+		double *spline, double *error, double *rms)
 {
 	double **vecB = NULL, **matA = NULL, **matTransA = NULL, **vecR = NULL, *r = NULL, *cp = NULL, tCopy;
 	double basis_0, basis_n;
@@ -421,7 +421,6 @@ EG_Linear_LS_Bspline_Optimization(int m, double XYZ[], double t[], int header[],
 	EG_free(cp);
 	EG_free(vecB);
 	EG_free(vecR);
-	*Linf = 0.0;
 	// Get curve to data error
 	for (j = 0; j < m ; ++j ) {
 		tCopy = t[j];
@@ -430,7 +429,6 @@ EG_Linear_LS_Bspline_Optimization(int m, double XYZ[], double t[], int header[],
 			printf("EG_distance_projection = %d\n!!",stat);
 			return stat;
 		}
-		*Linf = MAX(*Linf, error[j]);
 	}
 	*rms = L2norm(error, m) / (double)m;
 	return EGADS_SUCCESS;
@@ -619,7 +617,7 @@ static intcreateKnotSpan( int header[], double *bSpline, int m, double t[], dou
 				}
 			}
 			if ( knotCount == nSpans ) {
-				stat = EG_Linear_LS_Bspline_Optimization(m, XYZ, t, header, localSpline,  errAtIt, &L2error, &LInferror);
+				stat = EG_Linear_LS_Bspline_Optimization(m, XYZ, t, header, localSpline,  errAtIt, &L2error);
 				if (stat != EGADS_SUCCESS) {
 					printf("Solution To Linear System = %d!!!\n",stat);
 					goto cleanup;
@@ -664,8 +662,8 @@ static int
 get_minimal_knots (int header[], double spline[], int m, double *error, double t[], double XYZ[], int totNewKnots, double knotSeq[], int *outHeader, double **outSpline, double *oriL2)
 {
 	int    stat, i, j, nKnots, deg,  nSpans, pos;
-	double newL2error, newLInferror, *knotCopy = NULL, *newSpline = NULL;
-	knotCopy = (double*)EG_alloc((header[3] + totNewKnots )*sizeof(double));
+	double newL2error,  *knotCopy = NULL, *newSpline = NULL;
+	knotCopy   = (double*)EG_alloc((header[3] + totNewKnots )*sizeof(double));
 	newSpline  = (double*)EG_alloc( (3*header[2]+header[3])*sizeof(double));
 	if (knotCopy == NULL || newSpline == NULL) return EGADS_MALLOC;
 	nKnots        = header[3];
@@ -693,7 +691,7 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
 			newSpline[deg+j+1] = knotCopy[deg+i+1];
 			++j;
 		}
-		stat = EG_Linear_LS_Bspline_Optimization(m, XYZ, t, outHeader, newSpline, error, &newL2error, &newLInferror);
+		stat = EG_Linear_LS_Bspline_Optimization(m, XYZ, t, outHeader, newSpline, error, &newL2error);
 		if (stat != EGADS_SUCCESS ) {
 			printf("EG_Linear_LS_Bspline_Optimization %d\n",stat);
 			EG_free(knotCopy);
@@ -702,9 +700,8 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
 		}
 		if ( newL2error <= *oriL2 ) {
 			EG_free(knotCopy);
-			*outSpline = EG_reall( (*outSpline), (outHeader[3]+3*outHeader[2])*sizeof(double));
-			if (*outSpline == NULL ) return EGADS_MALLOC;
-			for ( i = 0 ; i < outHeader[3]+3*outHeader[2]; ++i) (*outSpline)[i] = newSpline[i];
+			*outSpline = (double*)EG_reall(*outSpline, (3*outHeader[2] + outHeader[3])*sizeof(double));
+			for ( i =0; i < 3*outHeader[2] + outHeader[3]; ++i ) (*outSpline)[i] = newSpline[i];
 			*oriL2     = newL2error;
 			EG_free(newSpline);
 			return EGADS_SUCCESS;
@@ -713,6 +710,10 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
 		for ( i = 0 ; i < nKnots; ++ i ) knotCopy[i] = newSpline[i];
 	}
 	while(pos >= 0);
+	outHeader[3] = outHeader[3] + totNewKnots;
+	outHeader[2] = outHeader[3] - deg - 1;
+	*outSpline = (double*)EG_reall(*outSpline, (3*outHeader[2] + outHeader[3])*sizeof(double));
+	for ( i =0; i < 3*outHeader[2] + outHeader[3]; ++i ) (*outSpline)[i] = newSpline[i];
 	EG_free(knotCopy);
 	EG_free(newSpline);
 	return EGADS_SUCCESS;
@@ -724,7 +725,7 @@ static int
 EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
 		int deg, double *rms, double LS_tol, int maxIter)
 {
-	double updateTOL, L2error, LInferror, prevL2error, backL2error;
+	double updateTOL, L2error, prevL2error, backL2error;
 	double  *t = NULL,  *bSpline = NULL,  *bSplineCopy = NULL, *backSpline = NULL, *XYZ = NULL, *error= NULL, badKnotSeq[MAX_KNOTS];
 	double point[3], scale, xmin, xmax, ymin, ymax, zmin, zmax, xcent, ycent, zcent,  newKnot;
 	int    falseIter, normIter, headerCopy[4], header[4], backHeader[4];
@@ -796,13 +797,13 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
 		goto cleanup;
 	}
 #endif
-	iter = 0;
+	iter          = 0;
 	rejections    = 0;
 	accepted      = 0;
 	reductions    = 0;
 	headerCopy[0] = 0;
 	headerCopy[1] = deg;
-	stat = EG_Linear_LS_Bspline_Optimization(m, XYZ, t, header, bSpline, error, &L2error, &LInferror);
+	stat = EG_Linear_LS_Bspline_Optimization(m, XYZ, t, header, bSpline, error, &L2error);
 	if (stat != EGADS_SUCCESS) {
 		printf("Solution To Linear System = %d!!!\n",stat);
 		goto cleanup;
@@ -820,6 +821,7 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
 		headerCopy[3] = header[3] + 1;
 		headerCopy[2] = headerCopy[3]-deg-1;
 		bSplineCopy   = (double*)EG_reall(bSplineCopy, (headerCopy[3]+ headerCopy[2]*3)*sizeof(double));
+
 		for ( i = 0; i < header[3]; ++i ) {
 			bSplineCopy[i] = bSpline[i];
 		}
@@ -940,9 +942,9 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
 	EG_free(backSpline);
 	printf("\n ---- LEAST SQUARES FIT STATUS %d ----\n"
 			"- BEST FIT: %d CONTROL POINTS\n"
-			"- RMS %11.4e, MAX ERROR %11.4e\n"
+			"- RMS %11.4e\n"
 			"- EXIT AT ITERATION %d ? %d \n"
-			"---------------------------------------\n",stat,header[2],L2error/scale,LInferror/scale,iter,maxIter);
+			"---------------------------------------\n",stat,header[2],L2error/scale,iter,maxIter);
 	return  stat;
 }
 
@@ -961,10 +963,10 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 	}
 	start_t = clock();
 
-	degree      = 3;//atoi(argv[3]);
-	nCP         = degree + 4;//+ 3;//atoi(argv[4]);
-	fitting_tol = 2.E-05;
-	nIters      = 100;//000;
+	degree      = 3;
+	nCP         = degree + 4;
+	fitting_tol = 1.E-07;
+	nIters      = 100;
 	strcpy(fileIn,  argv[1]);
 	strcpy(fileOut, argv[2]);
 	printf(" EG_open          = %d\n", EG_open(&context));
@@ -984,8 +986,9 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 	}
 	for (i = 0; i < nPt; i++) {
 		int posit      = 3 * i;
+		//fscanf(fIn, "%lf %lf%lf\n", &(xyz[posit]), &(xyz[posit + 1]), &(xyz[posit + 2]));
 		fscanf(fIn, "%lf %lf\n", &(xyz[posit]), &(xyz[posit + 1]));
-		xyz[posit + 2] = 0.0;
+		xyz[posit+2] = 0.0;
 	}
 	fclose(fIn);
 	stat = EG_1dBsplineCurveFit(context,xyz, nPt, &curve, nCP, degree, &rms, fitting_tol, nIters);

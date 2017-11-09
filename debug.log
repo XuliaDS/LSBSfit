@@ -1,0 +1,803 @@
+==20884== Memcheck, a memory error detector
+==20884== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==20884== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==20884== Command: ./LSBsplineFit LCrOM2_00_000_exported_julia.txt LCR
+==20884== Parent PID: 11068
+==20884== 
+==20884== 
+==20884== Process terminating with default action of signal 2 (SIGINT)
+==20884==    at 0x4C315A0: __strncpy_sse2_unaligned (vg_replace_strmem.c:548)
+==20884==    by 0x610FE3F: TCollection_AsciiString::TCollection_AsciiString(char const*) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x936F8A4: _GLOBAL__sub_I_RWStepAP214_ReadWriteModule.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKSTEP.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== HEAP SUMMARY:
+==20884==     in use at exit: 1,638,964 bytes in 3,047 blocks
+==20884==   total heap usage: 3,066 allocs, 19 frees, 1,639,192 bytes allocated
+==20884== 
+==20884== 544 bytes in 1 blocks are definitely lost in loss record 2,539 of 2,888
+==20884==    at 0x4C2E80F: operator new[](unsigned long) (vg_replace_malloc.c:422)
+==20884==    by 0x609FBFB: _GLOBAL__sub_I_Quantity_Convert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,833 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8233: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,834 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD827A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,835 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD82BA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,836 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD82FA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,837 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD833A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,838 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD837A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,839 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD83BA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,840 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD83FA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,841 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD843A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,842 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD847A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,843 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD84BA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,844 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD84FA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,845 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD853A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,846 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD857A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,847 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD866A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,848 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD86AA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,849 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD86EA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,850 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD872A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,851 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD876A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,852 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD87AA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,853 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD87EA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,854 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD882A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,855 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD886A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,856 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD88AA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,857 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD88EA: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,858 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD892A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,859 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD896A: _GLOBAL__sub_I_BRepGProp_Sinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,860 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8D83: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,861 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8DC7: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,862 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8E04: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,863 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8E41: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,864 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8E82: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,865 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8EBF: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,866 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8EFC: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,867 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8F39: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,868 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8F76: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,869 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8FB3: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,870 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD8FF0: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,871 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD902D: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,872 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD906A: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,873 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD90A7: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,874 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD9202: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,875 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD923F: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,876 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD927C: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,877 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AF4E: math_Vector::math_Vector(int, int, double) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD92BD: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,878 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD92FA: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,879 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD9337: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,880 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD9374: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,881 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD93B1: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,882 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD93EE: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,883 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD942B: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,884 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD9468: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,885 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD94A5: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== 15,624 bytes in 1 blocks are definitely lost in loss record 2,886 of 2,888
+==20884==    at 0x4C2FB55: calloc (vg_replace_malloc.c:711)
+==20884==    by 0x60E378F: Standard_MMgrRaw::Allocate(unsigned long) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKernel.so)
+==20884==    by 0x726AEE4: math_Vector::math_Vector(int, int) (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKMath.so)
+==20884==    by 0x7BD94E2: _GLOBAL__sub_I_BRepGProp_Vinert.cxx (in /home/docampo/ESP/OpenCASCADE-6.8.0/lib/libTKTopAlgo.so)
+==20884==    by 0x40106B9: call_init.part.0 (dl-init.c:72)
+==20884==    by 0x40107CA: call_init (dl-init.c:30)
+==20884==    by 0x40107CA: _dl_init (dl-init.c:120)
+==20884==    by 0x4000C69: ??? (in /lib/x86_64-linux-gnu/ld-2.23.so)
+==20884==    by 0x2: ???
+==20884==    by 0xFFEFFFF2A: ???
+==20884==    by 0xFFEFFFF39: ???
+==20884==    by 0xFFEFFFF5A: ???
+==20884== 
+==20884== LEAK SUMMARY:
+==20884==    definitely lost: 844,240 bytes in 55 blocks
+==20884==    indirectly lost: 0 bytes in 0 blocks
+==20884==      possibly lost: 0 bytes in 0 blocks
+==20884==    still reachable: 794,724 bytes in 2,992 blocks
+==20884==         suppressed: 0 bytes in 0 blocks
+==20884== Reachable blocks (those to which a pointer was found) are not shown.
+==20884== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==20884== 
+==20884== For counts of detected and suppressed errors, rerun with: -v
+==20884== ERROR SUMMARY: 55 errors from 55 contexts (suppressed: 0 from 0)

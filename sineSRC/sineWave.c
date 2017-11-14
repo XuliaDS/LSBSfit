@@ -14,17 +14,18 @@
 #include <math.h>
 #include <stdlib.h>
 #define PI  3.1415926535897931159979635
-#define NP 500
+//#define NP 500
 #define HELIX      0
 #define SPHERE_ARC 1
 #define SPHERE_SNAKE 2
 int main (int argc, char *argv[])
 {
-	if (argc != 2) {
-		printf(" Usage is %s + SHAPE: 0 = HELIX or 1 = SPHERE_ARC 2= SPHERE_SNAKE\n",argv[0]);
+	if (argc != 3) {
+		printf(" Usage is %s + SHAPE: 0 = HELIX or 1 = SPHERE_ARC 2= SPHERE_SNAKE + NUMBER OF POINTS \n",argv[0]);
 		exit(1);
 	}
 	int shape = atoi(argv[1]);
+	int NP    = atoi(argv[2]);
 	int i, n;
 	double tx, ty, tz, theta, phi;
 	FILE *fil;

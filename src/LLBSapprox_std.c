@@ -697,8 +697,8 @@ static intcreateKnotSpan( int header[], double *bSpline, int m, double t[], dou
   totBadSpans = 0;
   bestL2error = L2_INIT;
   do {
-    stat = get_max_error_knot (deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
-    //stat = get_max_varirance_knot(deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
+    //stat = get_max_error_knot (deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
+    stat = get_max_varirance_knot(deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
     if (stat == EGADS_SUCCESS) {
       for ( j = 0 ; j <= deg; ++j)
       {  // clamped: copy first & last
@@ -971,10 +971,10 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
   }
   for ( i = 0 ; i < header[3] + 3*header[2]; ++i) backSpline[i] = bSpline[i];
   for ( i = 0; i < 4; ++i) backHeader[i] = header[i];
-  prevL2error = L2error;
-  updateTOL   = L2error*0.01;
-  falseIter   = 0;
-  normIter    = 0;
+  prevL2error  = L2error;
+  updateTOL    = L2error*0.01;
+  falseIter    = 0;
+  normIter     = 0;
   spanLocation = -1;
   badCount     = 0;
   while ( (L2error > LS_tol) && (iter < maxIter) && (n < m) ){
@@ -990,9 +990,9 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
     if ( stat != EGADS_SUCCESS ) {
       printf(" Cannot refine more the Bspline. Leave Fitting with 'best' approximation %d\n",stat);
       for ( i = 0 ; i < 4; ++i) header[i] = backHeader[i];
-      bSpline     = (double*)EG_reall(bSpline,(header[3]+header[2]*3)*sizeof(double));
+      bSpline = (double*)EG_reall(bSpline,(header[3]+header[2]*3)*sizeof(double));
       for ( i = 0; i < header[3] + header[2]*3; ++i ) bSpline[i] = backSpline[i];
-      stat = EGADS_SUCCESS;
+      stat    = EGADS_SUCCESS;
       break;
     }
     else {

@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+environment/project/0.1455093199/ESP_ROOT/delimiter=\:
+environment/project/0.1455093199/ESP_ROOT/operation=append
+environment/project/0.1455093199/ESP_ROOT/value=/home/docampo/ESP/ESP/LINUX64
+environment/project/0.1455093199/LD_LIBRARY_PATH/delimiter=\:
+environment/project/0.1455093199/LD_LIBRARY_PATH/operation=append
+environment/project/0.1455093199/LD_LIBRARY_PATH/value=/home/docampo/ESP/ESP/LINUX64/lib\:/home/docampo/ESP/OpenCASCADE-6.8.0/lib
+environment/project/0.1455093199/append=true
+environment/project/0.1455093199/appendContributed=true

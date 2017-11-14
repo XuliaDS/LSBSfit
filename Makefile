@@ -13,14 +13,14 @@ HDIR = head
 
 # list of flags to pass to the compilation command: Call make debug to compile in debug mode
 CFLAGS_RUN      = -O3 -g -std=c99 $(I_DEF) $(I_DEBUG) $(I_IEEE) -fopenmp $(I_HEAD) $(I_EGADS) -fPIC
-CFLAGS_DEBUG    = -Og -std=c99 $(I_DEF) $(I_DEBUG2) $(I_DEBUG) $(I_IEEE) -fopenmp $(I_HEAD) $(I_EGADS) -fPIC
+CFLAGS_DEBUG    = -Og -g -DTESTFIT $(I_DEF) $(I_DEBUG2) $(I_DEBUG) $(I_IEEE) -fopenmp $(I_HEAD) $(I_EGADS) -fPIC -DEGADS_DEBUG
 
 I_DEBUG = -Wno-unused-variable -Wno-maybe-uninitialized -Wno-unused-but-set-variable 
 I_DEBUG2 = -g -ggdb -gdwarf-4 -Werror=implicit-function-declaration
 I_IEEE  = -frounding-math -fsignaling-nans
 I_HEAD  = -I$(HDIR)
 I_EGADS = -I$(ESP_ROOT)/include
-I_DEF   = -DSTANDALONE
+I_DEF   = -DSPLINESPLIT   #-DBSPLINEAPPROXIMATION
 
 # must include the math library
 LIBS_RUN   = $(L_EGADS) -ldl -lpthread -lm
@@ -36,11 +36,6 @@ source_temp   =  $(wildcard $(SDIR)/*.c)
 
 # specify explicitely which source files should not be compiled
 #src/approxML.c
-excluded_sources = backLSfit.c
-
-
-
-
 
 
 

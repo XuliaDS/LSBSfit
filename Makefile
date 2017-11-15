@@ -20,8 +20,8 @@ I_DEBUG2 = -g -ggdb -gdwarf-4 -Werror=implicit-function-declaration
 I_IEEE  = -frounding-math -fsignaling-nans
 I_HEAD  = -I$(HDIR)
 I_EGADS = -I$(ESP_ROOT)/include
-I_DEF   = -DSPLINESPLIT   #-DBSPLINEAPPROXIMATION
-
+#I_DEF   = -DSPLINESPLIT   #-DBSPLINEAPPROXIMATION
+I_DEF  = -DBSPLINEAPPROXIMATION
 # must include the math library
 LIBS_RUN   = $(L_EGADS) -ldl -lpthread -lm
 

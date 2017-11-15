@@ -698,8 +698,8 @@ createKnotSpan( int header[], double *bSpline, int m, double t[], double XYZ[], 
   totBadSpans = 0;
   bestL2error = L2_INIT;
   do {
-    stat = get_max_error_knot (deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
-    //stat = get_max_varirance_knot(deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
+    //stat = get_max_error_knot (deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
+    stat = get_max_varirance_knot(deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
     if (stat == EGADS_SUCCESS) {
       for ( j = 0 ; j <= deg; ++j)
       {  // clamped: copy first & last
@@ -847,7 +847,7 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
   int    paramType  = 0; // 1 = chord length, otherwise it uses centripetal
   FILE   *fn, *fbSpline;
   ego    bSplineCurve;
-  nKnots = n + deg + 1;
+  nKnots    = n + deg + 1;
   header[0] = 0 ;
   header[1] = deg;
   header[2] = n;
@@ -856,6 +856,55 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
     printf(" No Data...\n");
     return EGADS_NODATA;
   }
+  if ( n > m ) {
+    printf(" There are more Control Points than data!! %d > %d\n. I'm going to try and fit directly\n",header[2],m);
+    header[2] = m ;
+    header[3] = header[2] + header[1] + 1;
+    bSpline   = (double*)EG_alloc((header[2]*3 + header[3]) * sizeof(double));
+    if ( bSpline == NULL ) return EGADS_MALLOC;
+    for ( j = 0 ; j <= header[1]; ++j)
+    {  // clamped: copy first & last
+      bSpline[j]                = 0.0;
+      bSpline[header[3] -1 - j] = 1.0;
+    }
+    nKnots = header[3] - 2*(header[1]+1) + 1;
+    for ( i = 0; i < nKnots; ++ i ) {
+      bSpline[i + header[1]+1 ] = (double)(i+1.0)/(double)nKnots;
+    }
+    for ( i = 0 ; i < header[2]; ++ i ) {
+      bSpline[header[3] + 3*i ]   = XYZcloud[3*i];
+      bSpline[header[3] + 3*i +1] = XYZcloud[3*i+1];
+      bSpline[header[3] + 3*i +2] = XYZcloud[3*i+2];
+    }
+    stat = EG_makeGeometry(context, CURVE, BSPLINE, NULL, header, bSpline, &bSplineCurve);
+    if (stat != EGADS_SUCCESS) {
+      printf(" EG_makeGeometry %d\n",stat);
+      EG_free(bSpline);
+      return stat;
+    }
+    t     = (double*)EG_alloc (m*sizeof(double)); // Curve parameter
+    error = (double*)EG_alloc (m*sizeof(double));
+    if (error == NULL || t == NULL) {
+      EG_free(bSpline);
+      return EGADS_MALLOC;
+    }
+    stat  = getParameterVector(XYZcloud, m, t, paramType);
+    for ( i = 0 ; i < m; ++ i ) {
+      EG_distance_projection(header, bSpline, &XYZcloud[3*i], &t[i], &error[i]);
+    }
+    *rms = L2norm(error, m) / (double)m;
+    *curve = bSplineCurve;
+    printf("\n ---- LEAST SQUARES FIT STATUS %d ----\n"
+        "- BEST FIT: %d CONTROL POINTS\n"
+        "- RMS %11.4e\n"
+        "---------------------------------------\n",stat,header[2],*rms);
+    EG_free(t);
+    EG_free(error);
+    EG_free(bSpline);
+    return  stat;
+  }
+
+
   XYZ = (double *)EG_alloc(3*m*sizeof(double));
   if (XYZ == NULL ) return EGADS_MALLOC;
   // Scale Data: get max length and scale from centre
@@ -923,10 +972,10 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
   }
   for ( i = 0 ; i < header[3] + 3*header[2]; ++i) backSpline[i] = bSpline[i];
   for ( i = 0; i < 4; ++i) backHeader[i] = header[i];
-  prevL2error = L2error;
-  updateTOL   = L2error*0.01;
-  falseIter   = 0;
-  normIter    = 0;
+  prevL2error  = L2error;
+  updateTOL    = L2error*0.01;
+  falseIter    = 0;
+  normIter     = 0;
   spanLocation = -1;
   badCount     = 0;
   while ( (L2error > LS_tol) && (iter < maxIter) && (n < m) ){
@@ -942,9 +991,9 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
     if ( stat != EGADS_SUCCESS ) {
       printf(" Cannot refine more the Bspline. Leave Fitting with 'best' approximation %d\n",stat);
       for ( i = 0 ; i < 4; ++i) header[i] = backHeader[i];
-      bSpline     = (double*)EG_reall(bSpline,(header[3]+header[2]*3)*sizeof(double));
+      bSpline = (double*)EG_reall(bSpline,(header[3]+header[2]*3)*sizeof(double));
       for ( i = 0; i < header[3] + header[2]*3; ++i ) bSpline[i] = backSpline[i];
-      stat = EGADS_SUCCESS;
+      stat    = EGADS_SUCCESS;
       break;
     }
     else {
@@ -1388,7 +1437,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
       stat = EG_evaluate(pieces[i+1], &tVals[i], point);
       printf("Curve %d  %.15lf\t%.15lf\t%.15lf\n",i+1, point[0],point[1],point[2]);
     }
- }
+  }
   cleanup :
   EG_free(xyz);
   EG_free(pieces);
@@ -1464,9 +1513,9 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
   }
   for (i = 0; i < nPt; i++) {
     int posit      = 3 * i;
-    //fscanf(fIn, "%lf %lf %lf\n", &(xyz[posit]), &(xyz[posit + 1]), &(xyz[posit + 2]));
-    fscanf(fIn, "%lf %lf \n", &(xyz[posit]), &(xyz[posit + 1]));
-    xyz[posit+2] = 0.0;
+    fscanf(fIn, "%lf %lf %lf\n", &(xyz[posit]), &(xyz[posit + 1]), &(xyz[posit + 2]));
+    //fscanf(fIn, "%lf %lf \n", &(xyz[posit]), &(xyz[posit + 1]));
+    //xyz[posit+2] = 0.0;
   }
   fclose(fIn);
   stat = EG_1dBsplineCurveFit(context,xyz, nPt, &curve, nCP, degree, &rms, fitting_tol, nIters);

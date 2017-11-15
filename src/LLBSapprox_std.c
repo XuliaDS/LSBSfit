@@ -677,7 +677,8 @@ get_max_varirance_knot(int offset, // = degree (start looking only at the interi
 
 
 
-static intcreateKnotSpan( int header[], double *bSpline, int m, double t[], double XYZ[], double *error,
+static int
+createKnotSpan( int header[], double *bSpline, int m, double t[], double XYZ[], double *error,
     int *spanLocation,  double  *newKnot, double *inL2error, double updateTOL)
 {
   double *errAtIt = NULL, *bestError = NULL, *localSpline = NULL, *bestSpline = NULL;
@@ -833,7 +834,7 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
 
 
 #define MAX_FALSE_ITERS 20
-static int
+int
 EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
     int deg, double *rms, double LS_tol, int maxIter)
 {
@@ -1252,7 +1253,7 @@ EG_bisectBspline(ego context, ego bspline, double tVal, ego *piece)
   return stat;
 }
 
-static int
+int
 EG_BsplineSplit(ego context, ego bspline, int nC, double t_cut[], ego *piece)
 {
   int n, stat;

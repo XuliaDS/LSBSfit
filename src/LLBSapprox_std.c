@@ -27,7 +27,7 @@
 #define           MAX(A,B)        (((A) < (B)) ? (B) : (A))
 #define DEPS 1.e-12
 
-#define MIN_KNOT_DIST 1.e-6
+#define MIN_KNOT_DIST 1.e-5
 #define MAX_KNOTS 1000
 #define EPS2 1.e-08
 #define EPS1 1.e-08
@@ -478,92 +478,52 @@ checkSpan(double u0,double u1,double u2, double *t, int m, int *n)
   return EGADS_EMPTY;
 }
 
-#define MIN_PTS_PER_SPAN 2
+#define MIN_PTS_PER_SPAN 3
+
 
 static int
-get_max_error_knot(int offset, // = degree (start looking only at the interior knots)
-    int nSpans,            // number of iterior knots
-    int *badKnotsVec,     // excludes previously refined knots that gave bad results
-    int *totBadKnots,  // number of bad knots
-    double bSpline[], // knot vector
-    double error[],   // error at tvals
-    double *t,        // curve evaluation points
-    int m,            // number of data points
-    int *errId,       // stores the span with maximum error
-    double *tVal)     // stores the t with maximum error at the maximum span
-{
-  double  *knotErr  = NULL, *weightedErr, errMax = 0.0, sum, tAux;
-  int     *knotPool = NULL, *ids = NULL;
-  int     i, j, checkKnot,  first_t;
-  knotPool     = (int*)   EG_alloc(nSpans*sizeof(int));
-  ids          = (int*)   EG_alloc(nSpans*sizeof(int));
-  knotErr      = (double*)EG_alloc(nSpans*sizeof(double));
-  weightedErr  = (double*)EG_alloc(nSpans*sizeof(double));
-  if (knotPool == NULL || knotErr == NULL || weightedErr == NULL || ids == NULL ) return EGADS_MALLOC;
-  for ( i = 0; i < nSpans; ++ i) {
-    knotPool[i] =   0;
-    ids[i]      =   0;
-    checkKnot   =   1;
-    first_t     =  -1;
-    knotErr[i]  = 0.0;
-    errMax      = 0.0;
-    for ( j = 0; j < *totBadKnots; ++j) { // check if we already have used that knot
-      if ( (i+offset) == badKnotsVec[j])  {
-        checkKnot = 0;
+place_knot(int minIdx, int maxIdx, int centre, double left, double right, double *tVals, double *res) {
+  int k = 0,  *iter = NULL, plus, minus;
+  int cands;
+  if ( (maxIdx - minIdx) == 1) {
+    cands = 1;
+    iter  = (int*)EG_alloc(cands*sizeof(int));
+    if ( iter == NULL ) return EGADS_MALLOC;
+    iter[0] = minIdx;
+  } else {
+    cands = maxIdx - minIdx;
+    iter  = (int*)EG_alloc(cands*sizeof(int));
+    if ( iter == NULL ) return EGADS_MALLOC;
+    plus  = 1;
+    minus = 1;
+    k = 0;
+    if ( centre < maxIdx) iter[k++] = centre;
+    while ( k < cands) {
+      if ( (centre - minus) >= minIdx) {
+        iter[k] = centre - minus;
+        ++minus;
+      }
+      else if (centre + plus < maxIdx) {
+        iter[k] = centre + plus;
+        ++plus;
+      }
+      else {
+        printf(" Gone Beyond. We shouldn't be here. \n");
+        cands = k;
         break;
       }
-    }
-    if ( (checkKnot == 1) && (fabs( bSpline[i+offset] - bSpline[i+1+offset] ) >= 2.0*MIN_KNOT_DIST) ) {
-      for (j = 1; j < m - 1 ; ++j )	{
-        if ( ( t[j] >= bSpline[i+offset] ) && (t[j] < bSpline[i+1+offset] ) ) {
-          knotPool[i]++;
-          knotErr[i] += error[j]*error[j];
-          if (first_t == -1) {
-            ids[i]  = j;
-            first_t = 0;
-          }
-        }
-      }
-    }
-    if (knotPool[i] >=  MIN_PTS_PER_SPAN )	{  // min points per span.
-      weightedErr[i] = sqrt ((knotErr[i])*(double)knotPool[i]/(double)(m-2));
-    }
-    else {
-      weightedErr[i] = -1.0;
-      badKnotsVec[*totBadKnots] = i + offset;
-      ++(*totBadKnots);
+      ++k;
     }
   }
-  *errId = -1;
-  errMax = 0.0;
-  for ( i = 0; i < nSpans; ++ i) {
-    if ( weightedErr[i] > errMax ) {
-      sum  = 0.0;
-      tAux = bSpline[i+offset];
-      for ( j = 0 ; j < knotPool[i] - 1; ++j) {
-        sum += error[ids[i]+j]*error[ids[i]+j];
-        if ( sum > knotErr[i]*0.5) {
-          tAux = 0.5*( t[ids[i]+j] + t[ids[i]+j+1]);
-          j    = m;
-        }
-      }
-      if (  (fabs(tAux      - bSpline[i + offset])   >= MIN_KNOT_DIST )
-          && (fabs(tAux - bSpline[i + offset+1]) >= MIN_KNOT_DIST )) {
-        *errId = i;
-        errMax = weightedErr[i];
-        *tVal  = tAux;
-      }
+  for ( k = 0; k < cands; ++k) {
+    *res = 0.5*( tVals[iter[k]] + tVals[iter[k]+1]);
+    if ( (fabs(*res - left) >= MIN_KNOT_DIST ) && (fabs(*res - right) >= MIN_KNOT_DIST )){
+      EG_free(iter);
+      return EGADS_SUCCESS;
     }
   }
-  EG_free(knotErr);
-  EG_free(weightedErr);
-  EG_free(knotPool);
-  EG_free(ids);
-  if (*errId == -1) {
-    printf(" Total Bad Spans %d. Possible spans %d. I can't refine anywhere\n",*totBadKnots, nSpans);
-    return EGADS_EMPTY;
-  }
-  return EGADS_SUCCESS;
+  EG_free(iter);
+  return EGADS_EMPTY;
 }
 
 
@@ -582,7 +542,7 @@ get_max_varirance_knot(int offset, // = degree (start looking only at the interi
 {
   double  *knotErr  = NULL, *knotAvErr  = NULL, *weightedErr, errMax = 0.0, sum, tAux;
   int     *knotPool = NULL, *ids = NULL;
-  int     i, j, checkKnot,  first_t;
+  int     i, j, checkKnot,  first_t, stat;
   knotPool     = (int*)   EG_alloc(nSpans*sizeof(int));
   ids          = (int*)   EG_alloc(nSpans*sizeof(int));
   knotErr      = (double*)EG_alloc(nSpans*sizeof(double));
@@ -590,13 +550,13 @@ get_max_varirance_knot(int offset, // = degree (start looking only at the interi
   weightedErr  = (double*)EG_alloc(nSpans*sizeof(double));
   if (knotAvErr == NULL || knotPool == NULL || knotErr == NULL || weightedErr == NULL || ids == NULL ) return EGADS_MALLOC;
   for ( i = 0; i < nSpans; ++ i) {
-    knotPool[i] =   0;
-    ids[i]      =   0;
-    checkKnot   =   1;
-    first_t     =  -1;
-    knotErr[i]  = 0.0;
+    knotPool[i]  =   0;
+    ids[i]       =   0;
+    checkKnot    =   1;
+    first_t      =  -1;
+    knotErr[i]   = 0.0;
     knotAvErr[i] = 0.0;
-    errMax      = 0.0;
+    errMax       = 0.0;
     for ( j = 0; j < *totBadKnots; ++j) { // check if we already have used that knot
       if ( (i+offset) == badKnotsVec[j])  {
         checkKnot = 0;
@@ -618,8 +578,8 @@ get_max_varirance_knot(int offset, // = degree (start looking only at the interi
     }
     if (knotPool[i] >=  MIN_PTS_PER_SPAN )	{  // min points per span.
       knotAvErr[i]  /= (double)knotPool[i];
-      weightedErr[i] = sqrt ((knotErr[i])/(double)knotPool[i] - knotAvErr[i]*knotAvErr[i]);
-      printf(" i %d  weighted error %.15lf  average  %lf\n",i,weightedErr[i],knotAvErr[i]);
+      //weightedErr[i] = sqrt(knotErr[i]/(double)knotPool[i] - knotAvErr[i]*knotAvErr[i]);
+      weightedErr[i] = knotErr[i]/(double)knotPool[i];
     }
     else {
       weightedErr[i] = -1.0;
@@ -633,23 +593,23 @@ get_max_varirance_knot(int offset, // = degree (start looking only at the interi
     if ( weightedErr[i] > errMax ) {
       sum  = 0.0;
       tAux = bSpline[i+offset];
-      for ( j = 0 ; j < knotPool[i] - 1; ++j) {
+      for ( j = 0 ; j < knotPool[i] ; ++j) {
         sum += error[ids[i]+j]*error[ids[i]+j];
-        if ( sum > knotErr[i]*0.5) {
-          tAux = 0.5*( t[ids[i]+j] + t[ids[i]+j+1]);
-          j    = m;
+        if ( sum >= knotErr[i]*0.5) {
+          stat = place_knot(ids[i], ids[i] + knotPool[i] -1, ids[i] + j, bSpline[i+offset], bSpline[i+offset+1],t, &tAux);
+          if ( stat == EGADS_SUCCESS) {
+            j = m;
+            *errId = i;
+            errMax = weightedErr[i];
+            *tVal  = tAux;
+          }
         }
-      }
-      if (  (fabs(tAux      - bSpline[i + offset])   >= MIN_KNOT_DIST )
-          && (fabs(tAux - bSpline[i + offset+1]) >= MIN_KNOT_DIST )) {
-        *errId = i;
-        errMax = weightedErr[i];
-        *tVal  = tAux;
       }
     }
   }
   EG_free(knotErr);
   EG_free(weightedErr);
+  EG_free(knotAvErr);
   EG_free(knotPool);
   EG_free(ids);
   if (*errId == -1) {
@@ -661,28 +621,11 @@ get_max_varirance_knot(int offset, // = degree (start looking only at the interi
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-static int
-createKnotSpan( int header[], double *bSpline, int m, double t[], double XYZ[], double *error,
+static intcreateKnotSpan( int header[], double *bSpline, int m, double t[], double XYZ[], double *error,
     int *spanLocation,  double  *newKnot, double *inL2error, double updateTOL)
 {
   double *errAtIt = NULL, *bestError = NULL, *localSpline = NULL, *bestSpline = NULL;
-  double  prevL2error, L2error = 0.0, LInferror =0.0, bestL2error , bestNewKnot, tVal;
+  double  prevL2error, L2error = 0.0,  bestL2error , bestNewKnot, tVal;
   int     nKnots, nCP, deg, stat, totBadSpans, badSpanVec[MAX_KNOTS], nSpans;
   int     i,j, bestSpanLocation,  tPos, v, knotCount ;
   prevL2error = *inL2error;
@@ -698,7 +641,6 @@ createKnotSpan( int header[], double *bSpline, int m, double t[], double XYZ[], 
   totBadSpans = 0;
   bestL2error = L2_INIT;
   do {
-    //stat = get_max_error_knot (deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
     stat = get_max_varirance_knot(deg, nSpans, badSpanVec, &totBadSpans, bSpline, error, t,  m, &tPos, &tVal);
     if (stat == EGADS_SUCCESS) {
       for ( j = 0 ; j <= deg; ++j)
@@ -755,7 +697,8 @@ createKnotSpan( int header[], double *bSpline, int m, double t[], double XYZ[], 
     badSpanVec[totBadSpans] = tPos +deg;
     ++totBadSpans;
   }
-  while ( totBadSpans < nSpans );
+  while ( (totBadSpans < nSpans) && (stat == EGADS_SUCCESS));
+  if (stat != EGADS_SUCCESS) goto cleanup;
   for ( i = 0; i < header[3] + 3*header[2]; ++i ) bSpline[i] = bestSpline[i];
   for ( i = 0 ; i < m; ++i) error[i] = bestError[i];
   *spanLocation = bestSpanLocation;
@@ -814,18 +757,30 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
     if ( newL2error <= *oriL2 ) {
       EG_free(knotCopy);
       *outSpline = (double*)EG_reall(*outSpline, (3*outHeader[2] + outHeader[3])*sizeof(double));
+      if (*outSpline == NULL ) {
+        EG_free(knotCopy);
+        EG_free(newSpline);
+        return EGADS_MALLOC;
+      }
       for ( i =0; i < 3*outHeader[2] + outHeader[3]; ++i ) (*outSpline)[i] = newSpline[i];
-      *oriL2     = newL2error;
+      *oriL2 = newL2error;
       EG_free(newSpline);
       return EGADS_SUCCESS;
     }
     --pos;
-    for ( i = 0 ; i < nKnots; ++ i ) knotCopy[i] = newSpline[i];
+    for ( i = 0 ; i < nKnots; ++ i ) {
+      knotCopy[i] = newSpline[i];
+    }
   }
   while(pos >= 0);
   outHeader[3] = outHeader[3] + totNewKnots;
   outHeader[2] = outHeader[3] - deg - 1;
   *outSpline = (double*)EG_reall(*outSpline, (3*outHeader[2] + outHeader[3])*sizeof(double));
+  if (*outSpline == NULL ) {
+    EG_free(knotCopy);
+    EG_free(newSpline);
+    return EGADS_MALLOC;
+  }
   for ( i =0; i < 3*outHeader[2] + outHeader[3]; ++i ) (*outSpline)[i] = newSpline[i];
   EG_free(knotCopy);
   EG_free(newSpline);
@@ -833,7 +788,7 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
 }
 
 
-#define MAX_FALSE_ITERS 20
+#define MAX_FALSE_ITERS 10
 int
 EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
     int deg, double *rms, double LS_tol, int maxIter)
@@ -841,8 +796,8 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
   double updateTOL, L2error, prevL2error, backL2error;
   double  *t = NULL,  *bSpline = NULL,  *bSplineCopy = NULL, *backSpline = NULL, *XYZ = NULL, *error= NULL, badKnotSeq[MAX_KNOTS];
   double point[3], scale, xmin, xmax, ymin, ymax, zmin, zmax, xcent, ycent, zcent,  newKnot;
-  int    falseIter, normIter, headerCopy[4], header[4], backHeader[4];
-  int    rejections, accepted, reductions, spanLocation,  badCount;
+  int    falseIter, headerCopy[4], header[4], backHeader[4];
+  int    rejections, accepted, spanLocation,  badCount, update_step;
   int    iter, stat, i, j, k, nKnots;
   int    paramType  = 0; // 1 = chord length, otherwise it uses centripetal
   FILE   *fn, *fbSpline;
@@ -962,7 +917,6 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
   iter          = 0;
   rejections    = 0;
   accepted      = 0;
-  reductions    = 0;
   headerCopy[0] = 0;
   headerCopy[1] = deg;
   stat = EG_Linear_LS_Bspline_Optimization(m, XYZ, t, header, bSpline, error, &L2error);
@@ -975,11 +929,11 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
   prevL2error  = L2error;
   updateTOL    = L2error*0.01;
   falseIter    = 0;
-  normIter     = 0;
   spanLocation = -1;
   badCount     = 0;
   while ( (L2error > LS_tol) && (iter < maxIter) && (n < m) ){
     ++iter;
+    update_step   = 1;
     headerCopy[3] = header[3] + 1;
     headerCopy[2] = headerCopy[3]-deg-1;
     bSplineCopy   = (double*)EG_reall(bSplineCopy, (headerCopy[3]+ headerCopy[2]*3)*sizeof(double));
@@ -987,7 +941,7 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
     for ( i = 0; i < header[3]; ++i ) {
       bSplineCopy[i] = bSpline[i];
     }
-    stat  = createKnotSpan(headerCopy, bSplineCopy, m, t, XYZ, error, &spanLocation, &newKnot, &L2error, updateTOL);
+    stat = createKnotSpan(headerCopy, bSplineCopy, m, t, XYZ, error, &spanLocation, &newKnot, &L2error, updateTOL);
     if ( stat != EGADS_SUCCESS ) {
       printf(" Cannot refine more the Bspline. Leave Fitting with 'best' approximation %d\n",stat);
       for ( i = 0 ; i < 4; ++i) header[i] = backHeader[i];
@@ -1001,26 +955,22 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
       bSpline = (double*)EG_reall(bSpline,(header[3]+header[2]*3)*sizeof(double));
       for ( i = 0; i < header[3] + header[2]*3; ++i ) bSpline[i] = bSplineCopy[i];
     }
-    if ( L2error > prevL2error  && (normIter == 0 )) {
+    badKnotSeq[badCount] = newKnot;
+    ++badCount;
+    if ( L2error > prevL2error  ) {
       ++rejections;
       ++falseIter;
       updateTOL = 0.0;
-      badKnotSeq[badCount] = newKnot;
-      ++badCount;
+      update_step = 0;
+    } else if ( fabs(L2error - prevL2error) < updateTOL) {
+      ++rejections;
+      ++falseIter;
+      update_step = 0;
+      if (falseIter > MAX_FALSE_ITERS)  update_step = 1;
     }
-    else if ( fabs(L2error - prevL2error) < updateTOL) {
-      ++reductions;
-      ++normIter;
-      if (normIter > 10) updateTOL = 0.0;
-      if (falseIter == 0) {
-        badKnotSeq[badCount] = newKnot;
-        ++badCount;
-      }
-    } else {
-      if (falseIter >= 1 || normIter >=1 ) {
-        badKnotSeq[badCount] = newKnot;
-        ++badCount;
-        stat = get_minimal_knots(backHeader, backSpline, m, error, t, XYZ, badCount, badKnotSeq, header, &bSpline, &prevL2error);
+    if ( update_step == 1 ) {
+      if (falseIter >= 1) {
+        stat = get_minimal_knots(backHeader, backSpline, m, error, t, XYZ, badCount, badKnotSeq, header, &bSpline, &L2error);
         if (stat != EGADS_SUCCESS) {
           printf(" stat GET_MINIMAL_KNOTS %d!!\n",stat);
           goto cleanup;
@@ -1029,7 +979,6 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
       ++accepted;
       updateTOL    = L2error*0.01;
       falseIter    = 0 ;
-      normIter     = 0 ;
       spanLocation = -1;
       badCount     = 0 ;
       prevL2error  = L2error;
@@ -1052,7 +1001,7 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
       break;
     }
   }
-  printf(" Leaving Solver with norm %11.4e < %11.4e\n TOTALS: accepted %d rejected %d reduced %d \n",L2error, LS_tol, accepted, rejections, reductions);
+  printf(" Leaving Solver with norm %11.4e < %11.4e\n TOTALS: accepted %d rejected %d \n",L2error, LS_tol, accepted, rejections);
 #if SAVE_ITER_NORMS
   fclose(fn);
 #endif
@@ -1118,17 +1067,23 @@ static int
 FindSpan(int n, int p, double u, double *U)
 {
   int low, mid, high;
-
   if ( fabs ( u - U[n+1] ) < DEPS) return n;
   low  = p; high = n+1;
-  mid  = ( low + high )/2;
-  while ( ( u < U[mid] ) || ( u >= U[mid+1] ) ) {
+  mid  = floor(( low + high )/2);
+  while (  u < U[mid] -DEPS || ( u >= U[mid+1] - DEPS ) ) {
     if ( u < U[mid] ) {
       high = mid;
     } else {
       low  = mid;
     }
-    mid = ( low + high )/2;
+    mid =( low + high )/2;
+    if ( fabs (u - U[mid] ) < DEPS) {
+      while ( mid > 0  && ( fabs( U[mid] - U[mid -1] ) < DEPS ) ) --mid;
+      return mid;
+    }
+  }
+  if ( fabs (u - U[mid] ) < DEPS) {
+    while ( mid > 0  && ( fabs( U[mid] - U[mid -1] ) < DEPS ) ) --mid;
   }
   return mid;
 }
@@ -1156,7 +1111,7 @@ EG_CurveKnotIns(int *header,
   double *copySpline = NULL, *newSpline = NULL, *res = NULL, alpha;
   p  = header[1];
   np = header[2] - 1;
-  mp = header[3] - 1;
+  mp = np + p +1;
   nq = np + r;      // # new control points
   copySpline = EG_alloc(((np+1)*3 + mp+1)  *sizeof(double));
   newSpline  = EG_alloc(((nq+1)*3 + mp+r+1)*sizeof(double));
@@ -1164,8 +1119,8 @@ EG_CurveKnotIns(int *header,
   if (copySpline == NULL || res == NULL || newSpline == NULL ) return EGADS_MALLOC;
   for ( i = 0; i < ((np+1)*3 + mp+1); ++ i) copySpline[i] = (*spline)[i];
   // new knot sequence
-  for (i = 0; i <= k; ++i)   newSpline[i]   = copySpline[i];
-  for (i = 1; i <= r; ++i)   newSpline[k+i] = u;
+  for (i = 0; i <= k; ++i)   newSpline[i]    = copySpline[i];
+  for (i = 1; i <= r; ++i)   newSpline[k+i]  = u;
   for (i = k+1; i <= mp; ++i) newSpline[r+i] = copySpline[i];
   // Unaltered control points
   knotOffset = mp + 1 + r ;
@@ -1221,12 +1176,54 @@ EG_CurveKnotIns(int *header,
   return EGADS_SUCCESS;
 }
 
+static int
+duplicateEndKnot(int *header,
+    double **data, //spline= knots + cps GETS OVERWRITTEN !
+    int locKnot,  // knot location
+    int locCP)    // cp location
+{
+  int i,j;
+  double *dataAux;
+  dataAux = EG_alloc( (header[3] + 3* header[2])*sizeof(double) );
+  if (dataAux == NULL ) {
+    EG_free(dataAux);
+    return EGADS_MALLOC;
+  }
+  for ( i = 0 ; i < (header[3] + 3*header[2]); ++ i) dataAux[i] = (*data)[i];
+  *data = EG_reall(*data, (header[3] + 1 + 3* (header[2] +1))*sizeof(double));
+  if ( *data == NULL ) {
+    EG_free(dataAux);
+    return EGADS_MALLOC;
+  }
+  for ( j = i = 0; i < header[3]; ++ i,++j) {
+    (*data)[j] = dataAux[i];
+    if ( i == locKnot){
+      j++;
+      (*data)[j] = dataAux[i];
+    }
+  }
+  for ( j = i = 0; i < header[2]; ++ i,++j) {
+    (*data)[ (header[3] + 1) + 3*j]    = dataAux[header[3] + 3*i];
+    (*data)[ (header[3] + 1) + 3*j +1] = dataAux[header[3] + 3*i +1];
+    (*data)[ (header[3] + 1) + 3*j +2] = dataAux[header[3] + 3*i +2];
+    if ( i == locCP){
+      j++;
+      (*data)[ (header[3] + 1) + 3*j]    = dataAux[header[3] + 3*i];
+      (*data)[ (header[3] + 1) + 3*j +1] = dataAux[header[3] + 3*i +1];
+      (*data)[ (header[3] + 1) + 3*j +2] = dataAux[header[3] + 3*i +2];
+    }
+  }
+  ++header[3];
+  ++header[2];
+  EG_free(dataAux);
+  return EGADS_SUCCESS;
+}
 
 static int
 EG_bisectBspline(ego context, ego bspline, double tVal, ego *piece)
 {
   ego    geom;
-  int    newHeaders[2][4], *header = NULL, ctype, oclass,  i,  mult, stat, offsetA, offsetB, span;
+  int    newHeaders[2][4], *header = NULL, ctype, oclass,  i,  mult, stat, offsetA, offsetB, span, inserts, initKnots, p1;
   double *data = NULL, *newData = NULL;
   stat = EG_getGeometry(bspline, &oclass, &ctype, &geom, &header, &data);
   if ( stat != EGADS_SUCCESS  || header == NULL || data == NULL) {
@@ -1235,22 +1232,34 @@ EG_bisectBspline(ego context, ego bspline, double tVal, ego *piece)
     EG_free(header);
     return stat;
   }
-  span = FindSpan( header[2]-1, header[1], tVal, data);
-  mult = getMultiplicity(tVal, data, span, header[3]);
-  stat = EG_CurveKnotIns(header, &data, tVal, span, mult, header[1]);
+  p1        = 0;
+  span      = FindSpan( header[2]-1, header[1], tVal, data);
+  mult      = getMultiplicity(tVal, data, span, header[3]);
+  inserts   = header[1] - mult;
+  initKnots = header[3];
+  stat      = EG_CurveKnotIns(header, &data, tVal, span, mult, inserts);
+  // Now insert "dumb knot"
+  if ( mult > 0 ) p1 = 1;
+  stat = duplicateEndKnot(header, &data, span + header[1] - p1, span -header[1] + inserts);
+  if ( stat != EGADS_SUCCESS) {
+    EG_free(data);
+    EG_free(header);
+    return stat;
+  }
+  span     += header[1]+1 - p1;
   // First Spline
   newHeaders[0][0] = 0;
   newHeaders[0][1] = header[1];
-  newHeaders[0][3] = header[1] + 1 + span + 1;
+  newHeaders[0][3] = span+1;
   newHeaders[0][2] = newHeaders[0][3] - newHeaders[0][1] - 1;
-  newData = (double*)EG_alloc( (newHeaders[0][3] + newHeaders[0][2]*3)*sizeof(double));
+  newData          = (double*)EG_alloc( (newHeaders[0][3] + newHeaders[0][2]*3)*sizeof(double));
   if ( newData == NULL ) {
     EG_free(header);
     EG_free(data);
     return EGADS_MALLOC;
   }
-  for ( i = 0 ; i < newHeaders[0][3]-1;  ++i) newData[i] = data[i];
-  newData[newHeaders[0][3] -1] = newData[newHeaders[0][3] - 2];
+  offsetB = header[3];
+  for ( i = 0 ; i < newHeaders[0][3];  ++i) newData[i] = data[i];
   offsetA = newHeaders[0][3];
   offsetB = header[3];
   for ( i =  0; i < newHeaders[0][2]; ++i) {
@@ -1260,7 +1269,6 @@ EG_bisectBspline(ego context, ego bspline, double tVal, ego *piece)
   }
   stat = EG_makeGeometry(context, CURVE, BSPLINE, NULL, newHeaders[0], newData, &piece[0]);
   if ( stat != EGADS_SUCCESS) {
-    printf("stat EG_makeGeometry %d !!!\n",stat);
     EG_free(newData);
     EG_free(header);
     EG_free(data);
@@ -1269,7 +1277,7 @@ EG_bisectBspline(ego context, ego bspline, double tVal, ego *piece)
   // Second Spline
   newHeaders[1][0] = 0;
   newHeaders[1][1] = header[1];
-  newHeaders[1][3] = header[3] - (newHeaders[0][3] - ( header[1] + 1 ) ) +1;
+  newHeaders[1][3] = header[3] - span + header[1];
   newHeaders[1][2] = newHeaders[1][3] - newHeaders[1][1] - 1;
   EG_free(newData);
   newData = (double*)EG_alloc( (newHeaders[1][3] + newHeaders[1][2]*3)*sizeof(double));
@@ -1278,9 +1286,8 @@ EG_bisectBspline(ego context, ego bspline, double tVal, ego *piece)
     EG_free(data);
     return EGADS_MALLOC;
   }
-  offsetB = newHeaders[0][3]  - header[1]-1 ;
-  newData[0] = data[offsetB];
-  for ( i = 0 ; i < newHeaders[1][3] -1 ; ++i)  newData[i+1] = data[offsetB + i];
+  offsetB = newHeaders[0][3] - (header[1] + 1);
+  for ( i = 0 ; i < newHeaders[1][3]  ; ++i)  newData[i] = data[offsetB + i];
   offsetA = newHeaders[1][3];
   offsetB = header[3] + 3*(header[2] - newHeaders[1][2]);
   for ( i =  0; i < newHeaders[1][2]; ++i) {
@@ -1290,7 +1297,6 @@ EG_bisectBspline(ego context, ego bspline, double tVal, ego *piece)
   }
   stat = EG_makeGeometry(context, CURVE, BSPLINE, NULL, newHeaders[1], newData, &piece[1]);
   if ( stat != EGADS_SUCCESS) {
-    printf("stat EG_makeGeometry %d !!!\n",stat);
     EG_free(newData);
     EG_free(header);
     EG_free(data);
@@ -1340,11 +1346,11 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 #ifdef EGADS_DEBUG
   feenableexcept(FE_INVALID | FE_OVERFLOW);
 #endif
-  nC          = 4;
-  nPt         = 200;
+  nC          = 3;
+  nPt         = 50;
   degree      = 3;
   nCP         = degree + 4;
-  fitting_tol = 1.E-05;
+  fitting_tol = 1.E-06;
   nIters      = 100;
   printf(" EG_open          = %d\n", EG_open(&context));
   // Reading of number of points from file (if input filename given)
@@ -1397,7 +1403,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
       printf(" EG_BsplineSplit = %d!!\n",stat);
       goto cleanup;
     }
-    zero = 0;
+    zero   = 0;
     offset = 0;
     for ( i = 0; i < nC; ++ i) {
       snprintf(buffer, sizeof(char) * 32, "spline%i.txt", i);
@@ -1433,7 +1439,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
     printf(" JUNCTIONS:\n");
     for ( i = 0; i < nC - 1; ++ i) {
       stat = EG_evaluate(pieces[i], &tVals[i], point);
-      printf("Curve %d  %.15lf\t%.15lf\t%.15lf\t",i, point[0],point[1],point[2]);
+      printf(" t %lf  Curve %d  %.15lf\t%.15lf\t%.15lf\t",tVals[i], i, point[0],point[1],point[2]);
       stat = EG_evaluate(pieces[i+1], &tVals[i], point);
       printf("Curve %d  %.15lf\t%.15lf\t%.15lf\n",i+1, point[0],point[1],point[2]);
     }
@@ -1491,8 +1497,8 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 #endif
 
   degree      = 3;
-  nCP         = degree + 4;
-  fitting_tol = 1.E-07;
+  nCP         = degree + 3;
+  fitting_tol = 1.E-05;
   nIters      = 100;
   strcpy(fileIn,  argv[1]);
   strcpy(fileOut, argv[2]);
@@ -1513,9 +1519,9 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
   }
   for (i = 0; i < nPt; i++) {
     int posit      = 3 * i;
-    fscanf(fIn, "%lf %lf %lf\n", &(xyz[posit]), &(xyz[posit + 1]), &(xyz[posit + 2]));
-    //fscanf(fIn, "%lf %lf \n", &(xyz[posit]), &(xyz[posit + 1]));
-    //xyz[posit+2] = 0.0;
+    //fscanf(fIn, "%lf %lf %lf\n", &(xyz[posit]), &(xyz[posit + 1]), &(xyz[posit + 2]));
+    fscanf(fIn, "%lf %lf \n", &(xyz[posit]), &(xyz[posit + 1]));
+    xyz[posit+2] = 0.0;
   }
   fclose(fIn);
   stat = EG_1dBsplineCurveFit(context,xyz, nPt, &curve, nCP, degree, &rms, fitting_tol, nIters);
@@ -1531,7 +1537,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
     for (i = 0; i < nPt; i++) {
       t    = ((double) i) * dPtInv;
       stat = EG_evaluate(curve, &t, point);
-      fprintf(fIn, "%22.14le %22.14le %22.14le %22.14le\n", point[0], point[1], point[2], t);
+      fprintf(fIn, "%22.14le %22.14le %22.14le %22.14le \n", point[0], point[1], point[2], t);
     }
   }
   EG_free(splineData);

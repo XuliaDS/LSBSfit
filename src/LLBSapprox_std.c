@@ -27,10 +27,10 @@
 #define           MAX(A,B)        (((A) < (B)) ? (B) : (A))
 #define DEPS 1.e-12
 
-#define MIN_KNOT_DIST 1.e-5
+#define MIN_KNOT_DIST 1.e-6
 #define MAX_KNOTS 1000
-#define EPS2 1.e-08
-#define EPS1 1.e-08
+#define EPS2 1.e-10
+#define EPS1 1.e-10
 #define NEWTON_IT_MAX 50
 
 #define SAVE_OPTI_AND_CP 1
@@ -788,7 +788,7 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
 }
 
 
-#define MAX_FALSE_ITERS 10
+#define MAX_FALSE_ITERS 5
 int
 EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
     int deg, double *rms, double LS_tol, int maxIter)
@@ -962,12 +962,12 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
       ++falseIter;
       updateTOL = 0.0;
       update_step = 0;
-    } else if ( fabs(L2error - prevL2error) < updateTOL) {
+    } /*else if ( fabs(L2error - prevL2error) < updateTOL) {
       ++rejections;
       ++falseIter;
       update_step = 0;
       if (falseIter > MAX_FALSE_ITERS)  update_step = 1;
-    }
+    }*/
     if ( update_step == 1 ) {
       if (falseIter >= 1) {
         stat = get_minimal_knots(backHeader, backSpline, m, error, t, XYZ, badCount, badKnotSeq, header, &bSpline, &L2error);
@@ -1498,8 +1498,8 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 
   degree      = 3;
   nCP         = degree + 3;
-  fitting_tol = 1.E-05;
-  nIters      = 100;
+  fitting_tol = 1.E-07;
+  nIters      = 300;
   strcpy(fileIn,  argv[1]);
   strcpy(fileOut, argv[2]);
   printf(" EG_open          = %d\n", EG_open(&context));

@@ -1,0 +1,15 @@
+ EG_open          = 0
+  Fitting for 459 data points
+ Cannot refine more the Bspline. Leave Fitting with 'best' approximation -13
+ Leaving Solver with norm  7.0054e-06 <  1.0000e-07
+ TOTALS: accepted 185 rejected 197 
+
+ ---- LEAST SQUARES FIT STATUS 0 ----
+- BEST FIT: 203 CONTROL POINTS
+- RMS  2.9706e-07
+- EXIT AT ITERATION 233 ? 500 
+---------------------------------------
+ STAT =  0
+ EGADS Info: 1 Objects, 1 Reference in Use (of 2) at Close!
+ EGADS Info: 1 unattached Objects (1 References) removed!
+ TIME  = 40.528445  segs

@@ -1521,7 +1521,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 	eD          = atoi(argv[3]);
 	degree      = 3;
 	nCP         = degree + 1;
-	fitting_tol = 1.E-06;
+	fitting_tol = 1.E-07;
 	delta       = 1.e-10;   // Controls when the algorithm has "stalled" ie,  inserting a new knot improves the L2 error by delta
 	nIters      = 500;
 	strcpy(fileIn,  argv[1]);
@@ -1564,8 +1564,8 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 			EG_free(xyz);
 			return EGADS_EMPTY;
 		}
-		dPtInv = 1.0 / ((double) (2.0*nPt - 1));
-		for (i = 0; i < 2*nPt; i++) {
+		dPtInv = 1.0 / ((double) (nPt - 1));
+		for (i = 0; i < nPt; i++) {
 			t    = ((double) i) * dPtInv;
 			stat = EG_evaluate(curve, &t, point);
 			fprintf(fIn, "%22.14le %22.14le %22.14le %22.14le \n", point[0], point[1], point[2], t);

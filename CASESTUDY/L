@@ -1,0 +1,15 @@
+ EG_open          = 0
+  Fitting for 459 data points
+ I have done 10 iterations with no improvement. Leave Fitting with 'best' approximation 0
+ Leaving Solver with norm  1.1092e-05 <  1.0000e-05
+ TOTALS: accepted 51 rejected 42 
+
+ ---- LEAST SQUARES FIT STATUS 0 ----
+- BEST FIT: 63 CONTROL POINTS
+- RMS  4.7034e-07
+- EXIT AT ITERATION 74 ? 500 
+---------------------------------------
+ STAT =  0
+ EGADS Info: 1 Objects, 1 Reference in Use (of 2) at Close!
+ EGADS Info: 1 unattached Objects (1 References) removed!
+ TIME  = 1.058240  segs

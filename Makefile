@@ -20,8 +20,8 @@ I_DEBUG2 = -g -ggdb -gdwarf-4 -Werror=implicit-function-declaration
 I_IEEE  = -frounding-math -fsignaling-nans
 I_HEAD  = -I$(HDIR)
 I_EGADS = -I$(ESP_ROOT)/include
-#I_DEF   = -DSPLINESPLIT   #-DBSPLINEAPPROXIMATION
-I_DEF  = -DBSPLINEAPPROXIMATION
+#I_DEF  = -DSPLINESPLIT   #-DBSPLINEAPPROXIMATION
+I_DEF   = -DBSPLINEAPPROXIMATION
 # must include the math library
 LIBS_RUN   = $(L_EGADS) -ldl -lpthread -lm
 
@@ -37,7 +37,7 @@ source_temp   =  $(wildcard $(SDIR)/*.c)
 # specify explicitely which source files should not be compiled
 #src/approxML.c
 
-
+excluded_sources = LLBSapprox_std.c
 
 # SRC will contain only those files which remain
 SRC    = $(filter-out $(excluded_sources),$(source_temp))

@@ -176,18 +176,18 @@ Then we apply this routine on a level-set solution employed for studying ice for
 
  \begin{table}
  \centering
-  \begin{tabular}{||c c c c||c c c c||}
+  \begin{tabular}{||c c c c c ||c c c c c||}
   \hline
-  \multicolumn{4}{||c||}{\textbf{Sphere Curve}} & \multicolumn{4}{c||}{\textbf{NACA}}\\
+  \multicolumn{5}{||c||}{\textbf{Sphere Curve}} & \multicolumn{5}{c||}{\textbf{NACA}}\\
   \hline
- TOL    & TIME (s) & N  & RMS     & TOL    & TIME (s) & N  & RMS     \\
+ TOL    & TIME (s) & N  & N-Direct & RMS     & TOL    & TIME (s) & N  & N-Direct  & RMS     \\
  \hline
-1.0e-05 & 2.20e-02 & 24	& 8.1e-06 & 1.0e-05 & 4.00e-02 & 12 & 9.7e-06\\
-1.0e-06 & 1.40e-01 & 40	& 9.5e-07 & 1.0e-06 & 3.00e-01 & 27 & 8.8e-07\\
-1.0e-07 & 2.73e+00 & 73	& 1.0e-07 & 1.0e-07 & 4.70e-01 & 40 & 8.8e-08\\
-\multicolumn{8}{||c||}{}\\
-\multicolumn{4}{||c||}{\includegraphics[width=0.45\textwidth]{snake-crop}}&
-\multicolumn{4}{c||}{\includegraphics[width=0.45\textwidth]{naca27-crop} }\\
+1.0e-05 & 2.20e-02 & 24	& 20 & 8.1e-06 & 1.0e-05 & 4.00e-02 & 12 & 19 & 9.7e-06\\
+1.0e-06 & 1.40e-01 & 40	& 32 & 9.5e-07 & 1.0e-06 & 3.00e-01 & 27 & 35 & 8.8e-07\\
+1.0e-07 & 2.73 & 73	& 54 & 1.0e-07 & 1.0e-07 & 4.70e-01 & 40 & 52 & 8.8e-08\\
+\multicolumn{5}{||c||}{} & \multicolumn{5}{c||}{}\\
+\multicolumn{5}{||c||}{\includegraphics[width=0.45\textwidth]{snake-crop}}&
+\multicolumn{5}{c||}{\includegraphics[width=0.45\textwidth]{naca27-crop} }\\
 \hline
 \end{tabular}
 \caption{Results when approximating a curve moving along a sphere (see Figure \ref{fig:sphere_snake}) using 200 points.}

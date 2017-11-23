@@ -27,8 +27,8 @@
 #define MAX(A,B)        (((A) < (B)) ? (B) : (A))
 #define DEPS 1.e-12
 
-#define MAX_FALSE_ITERS 10
-#define MIN_PTS_PER_SPAN 2
+#define MAX_FALSE_ITERS 20
+#define MIN_PTS_PER_SPAN 1
 #define MIN_KNOT_DIST 1.e-7
 #define MAX_KNOTS 1000
 #define EPS2 1.e-10
@@ -1509,8 +1509,8 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 	double  rms, point[3], *xyz = NULL, *splineData = NULL, dPtInv, t, fitting_tol, delta;
 	char    fileIn[nChar], fileOut[nChar], line[nChar];
 	FILE    *fIn = NULL;
-	if (argc != 4) {
-		printf(" Usage is  name input file + name output file  + field dimension\n");
+	if (argc < 4) {
+		printf(" Usage is  name input file + name output file  + field dimension + (NCP)\n");
 		return 1;
 	}
 	start_t = clock();
@@ -1520,10 +1520,16 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 #endif
 	eD          = atoi(argv[3]);
 	degree      = 3;
-	nCP         = degree + 1;
-	fitting_tol = 1.E-07;
-	delta       = 1.e-10;   // Controls when the algorithm has "stalled" ie,  inserting a new knot improves the L2 error by delta
+	if ( argc == 5 ) {
+	  nCP         = atoi(argv[4]);//degree + 1;
+	  nIters = 0;
+	}
+	else {nCP = degree+ 1;
 	nIters      = 500;
+	}
+	fitting_tol = 1.E-05;
+	delta       = 1.e-10;   // Controls when the algorithm has "stalled" ie,  inserting a new knot improves the L2 error by delta
+
 	strcpy(fileIn,  argv[1]);
 	strcpy(fileOut, argv[2]);
 	printf(" EG_open          = %d\n", EG_open(&context));

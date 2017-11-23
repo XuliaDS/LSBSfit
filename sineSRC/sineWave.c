@@ -67,8 +67,8 @@ int main (int argc, char *argv[])
     fprintf(fil,"#N: %d\n",NP);
     theta = M_PI*0.25;
     for ( i = 0 ; i < NP ; ++i) {
-      theta = (double)i*M_PI/((double)NP/4-1.0);
-      phi = (double)i*M_PI/((double)NP-1.0);
+      theta = (double)i*M_PI/((double)NP/4.-1.0)+ (double)rand() /  (double)(100.*RAND_MAX);
+      phi = (double)i*M_PI/((double)NP-1.0) + (double)rand()/ (double)(100.*RAND_MAX) ;
       tx = cos(theta)*sin(phi);
       ty = sin(theta)*sin(phi);
       tz = cos(phi);

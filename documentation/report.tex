@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{tabularx}
 \usepackage{amssymb}
@@ -23,7 +23,6 @@
 \usepackage{subcaption}
 \usepackage{pdflscape}
 \bibliographystyle{plain} % or: "chicago"
-\usepackage{natbib} % a citation management package
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -66,13 +65,100 @@
  
  \section{Introduction}
  \section{Defining the Problem}
+ Curve and surface modelling play a major role in Reverse Engineering during object reconstruction
+  through CAD software \cite{Ma1998} or for CFD simulations involving moving
+  interfaces such as flame propagation problems \cite{malladi1995}. 
+  Usually, one has access only to a discrete (finite) data set 
+  and a smooth curve (surface) is needed in order to perform operations such as numerical integration or differentiation. 
+  Although not unique, the solution to this problem is generally sought as a spline curve (surface)  
+  that either interpolates or provides an approximation which is \emph{closest} to the data.  
+   The latter one is desirable for experimental measurements or computational data 
+   which may be slightly inaccurate or noisy whereas cases for which data (or part of it) is known to be exact, 
+  an interpolation approach \cite{} is more suitable. 
+   Since the work presented here was originally developed for curve reconstruction during 
+    aircraft icing simulations \cite{}, we focus our attention on approximation techniques and the challenges associated to them 
+    
+    Defining a spline implies finding its control points (net) and knot sequence 
+    and an ideal \emph{fit} would be a spline that minimizes the error (under certain metric) 
+    employing a minimum number of knots (control points). 
+    Unfortunately, this represents a great challenge since both the ``optimal'' number of control points 
+  and knot location are unknown and in general, it is not possible to derive explicit formulas \cite{jupp1978}.  
+  Thus, the solution is found by casting a suitable optimization problem, 
+  usually based on the least-squares minimization \cite{nurbs_book, deboor2001practical, schumaker2015spline}. 
+   The methodology proposed here attempts to solve the \emph{minimal} spline curve from a heuristic approach, where 
+   knots are strategically introduced as part of an iterative scheme that drives the error towards a desired tolerance. 
+      
+  The simplest solution to the spline least-squares optimization problem is to fix the number of control points,
+  prescribe a knot sequence alongside with a suitable curve parametrization and solve a linear system for the 
+  control points \cite[Ch. 5.4]{nurbs_book}, \cite{deboor1968}. It has been shown that
+    chord-length and centripetal based parameterizations 
+    improve the accuracy of the approximation \cite{hoschek1988,speer1998,lee1989, ma1995}, especially for detection of sharp features. 
+  However, a fixed knot sequence may be too oversimplified and 
+  shape manipulation (knot insertion/removal) \cite{piegl1989, boehm1980, goldman1992} 
+   can be introduced as part of an error controlled iterative scheme; 
+   one can continuously insert new knots and find a new least-squares solution, 
+   driving the curve towards a desired tolerance \cite{piegl2000, park2007} or alternatively, 
+     begin with a large number of control points and remove knots successively until the 
+     quality of the approximation is affected \cite{lyche1987, nurbsbook}. 
+   Ultimately, the problem can be formulated as a non-linear optimization, allowing 
+   ``free knots'' as part of the least-squares solution \cite{schwetlick1995least, beliakov2004}.
+
+   The algorithm presented here is based on a heuristic approach and combines 
+   a least squares solver together with an error controlled knot insertion. 
+   The scheme starts with the minimum number of control points and at each iteration, 
+  attempts to insert a new knot at the span with highest weighted error. The insertion step 
+  is error controlled and the knot is rejected if the new approximation 
+  does not improve according to a tolerance. 
+   When none of the new knots are capable to overcome tolerance step, 
+   the scheme proceeds with the \emph{best} candidate, tags it and iterate until a valid step is found and 
+   it attempts to remove any possible \emph{redundant} knots, starting from the tagged location. 
+  Although we cannot prove that this number if optimal, 
+  our results suggest that this knot distribution as well as an increasing knot sequence approach 
+   leads to satisfactory results. In the following section we discuss the building blocks of our algorithm:  
+   Bspline functions, least squares approximation and the ``best knot'' sequence problem and in 
+  section \ref{} we provide implementation details. Section \ref{} shows several experiments including 
+   approximation to noisy data and ice layer reconstruction. Finally, 
+   in section \ref{}  we conclude and highlight the areas for improvement as well as future applications.
+ 
+ 
+ \section{background}
+ Bsplines
+ 
+ Curve Reconstruction
+ 
+ Least Squares Solvers
+ Linear versus Non Linear
+ 
+ 
  \section{The Algorithm}
- The methodology presented here attempts to approximate data to some user specified accuracy by applying an iterative scheme. 
+ 
+ The work presented here provides a solution to data approximation in the least-squares sense through an iterative 
+ scheme that aims to attain a user specified accuracy. 
 In order to avoid solving the non-linear ``free knots'' problem, we propose the following approach: start with few (or minimal) number of control points and perform a curve fit solving the linear least-squares problem in order to find 
 the points location. If the error is unacceptable, locate the knot span with highest squared error and insert a  new knot such that the error is split in halves. The process iterates until the desired tolerance is reached or it is not 
 possible to introduce new suitable knots. We will discuss later what unsuitable knots mean. 
 
-It is well known that as the number of control points approach the number of data points, the resulting approximating B-spline curve may present undesirable wiggles or end up producing artificial loops. Hence, we believe that 
+It is well known that as the number of control points approach the number of data points, 
+the resulting approximating B-spline curve may develop undesirable wiggles or artificial loops (self-intersections). 
+However, such artifacts may not be visible to the Least-Squares solver since curve has is smooth along the chosen parametrization 
+. Figure \ref{fig:bspline_wiggle} illustrates this phenomena: the curve values that 
+ are fed to the solver correspond to the centripetal parametrization (smooth) and the uniform values correspond to 
+ sampling the curve uniformly around the resulting curve. 
+ Observe how the Bspline wiggles in between the centripetal knots. This is because in that region, almost all the 
+ knot spans contain only one $t-value$ resulting in a zig-zagging control polygon.
+ 
+ 
+ \begin{figure}
+  
+  \includegraphics{wiggle_ALL-crop}
+  \caption{\label{fig:bspline_wiggle}Bspline approximation sampled at two different parametrizations (centripetal and uniform) revealing the ``hidden'' wiggles as a result excessive number 
+  of control points.}
+ \end{figure}
+
+ 
+ 
+ are not visible to the 
+Hence, we believe that 
 a ``knot increasing'' iterative scheme is more stable than approximating the curve starting with a high number of control points and iterative remove the redundant ones. 
 The usual approach for solving the least squares problem consists of a pre-stage that finds a suitable curve parametrization ($e.g.$, centripetal or chord-length)  ${t_j}_{j=1}^m$ that targets the $m$ data points and
 then compute the knots location followed by finding the control points location that minimizes the error in the least squares sense. 
@@ -108,7 +194,7 @@ We start with the minimum number of control points ( $n = p$) and the following 
 $U=\left\{0,\underbrace{\ldots}_{p-1},0,1,\underbrace{\ldots}_{p-1},1\right\}$. 
  At each iteration, we find the span with greatest squared error: 
  $$e_k = \frac{1}{N_k}\sum_{i=1}^{N_k} (C(t_i) - X_i)^2,\quad N_k = \# t_i\in [u_k, u_{k+1}), i=1,\ldots,m-1.$$
- At $e_k$, we look for the first $t_i$ such that $t_i >= e_k/2$ and we insert a knot $\tilde u = 0.5(t_i+t_{i+1}$. 
+At $e_k$, we look for the first $t_i$ such that $t_i >= e_k/2$ and we insert a knot $\tilde u = 0.5(t_i+t_{i+1})$. 
  \begin{remark}
   This knot choice ensures that every new span is non empty. 
  \end{remark}
@@ -116,7 +202,7 @@ In order to avoid concentrating too many control points at a particular zone, we
 constraints in our knot choice:
 \begin{enumerate}
  \item The new knot has to be at a \emph{minimum} distance from the its neighboring knots which we have set to $1.e-06$. 
- \item The minimum $t_k$'s is set $>1$ initially and only when no more knots can be inserted (and the algorithm hasn't reached the desired tolerance) this condition is relaxed. 
+ \item The user can specify a minimum $t_k$'s per span, ($>1$ ). 
 \end{enumerate}
 
 \subsubsection{The Algorithm}
@@ -161,33 +247,24 @@ We begin by studying the performance of the solver on ''basic shapes`` as well a
 Then we apply this routine on a level-set solution employed for studying ice formation and finally, we study 
  its behavior on nosy data. 
  
- \begin{table}
- \centering
-  \begin{tabular}{|c| c| c|c |c|}
-  \hline
- TOL&TIME (s)&Iters& NCP  & Error      \\ 
-1.e-05&	0.006&	14&	18&	2.5e-06\\
-1.e-06&	0.006&	17&	21&	9.6e-07\\
-1.e-07&	0.009&	25&	29&	7.6e-08\\
-\hline
-   \end{tabular}
-\caption{Results when approximating a 2D sine-wave $(t,\sin(t)), \ t\in[0,\pi]$ using 100 data points.}
- \end{table}
 
  \begin{table}
  \centering
-  \begin{tabular}{||c c c c c ||c c c c c||}
+  \begin{tabular}{||c||c c || c c ||}
   \hline
-  \multicolumn{5}{||c||}{\textbf{Sphere Curve}} & \multicolumn{5}{c||}{\textbf{NACA}}\\
-  \hline
- TOL    & TIME (s) & N  & N-Direct & RMS     & TOL    & TIME (s) & N  & N-Direct  & RMS     \\
+ R.M.S.  &\multicolumn{4}{c||}{Control Points}\\
  \hline
-1.0e-05 & 2.20e-02 & 24	& 20 & 8.1e-06 & 1.0e-05 & 4.00e-02 & 12 & 19 & 9.7e-06\\
-1.0e-06 & 1.40e-01 & 40	& 32 & 9.5e-07 & 1.0e-06 & 3.00e-01 & 27 & 35 & 8.8e-07\\
-1.0e-07 & 2.73 & 73	& 54 & 1.0e-07 & 1.0e-07 & 4.70e-01 & 40 & 52 & 8.8e-08\\
-\multicolumn{5}{||c||}{} & \multicolumn{5}{c||}{}\\
-\multicolumn{5}{||c||}{\includegraphics[width=0.45\textwidth]{snake-crop}}&
-\multicolumn{5}{c||}{\includegraphics[width=0.45\textwidth]{naca27-crop} }\\
+  &\multicolumn{2}{c||}{\textbf{Sphere Curve}} & \multicolumn{2}{c||}{\textbf{NACA}}\\
+
+ & ECILS& DLS & ECILS & DLS\\
+ \hline
+1.0e-05 & 24	& 20 & 12 & 19\\
+1.0e-06 & 40	& 32 & 27 & 35\\
+1.0e-07 & 73	& 54 & 40 & 52 \\
+\hline
+&\multicolumn{2}{c||}{}&\multicolumn{2}{c||}{}\\
+&\multicolumn{2}{c||}{\includegraphics[width=0.42\textwidth]{snake-crop}}
+&\multicolumn{2}{c||}{\includegraphics[width=0.42\textwidth]{naca27-crop} }\\
 \hline
 \end{tabular}
 \caption{Results when approximating a curve moving along a sphere (see Figure \ref{fig:sphere_snake}) using 200 points.}
@@ -195,6 +272,30 @@ Then we apply this routine on a level-set solution employed for studying ice for
 
  
  
+ 
+ \begin{table}
+  \begin{tabular}{|l |cc |cc| cc|}
+  \hline
+  &\multicolumn{2}{c|}{{Noisy Data 1}}&\multicolumn{2}{c|}{{Noisy Data 2}}&\multicolumn{2}{c|}{{Noisy Data 3}}\\
+  \hline
+Solver& $\text{N}^\circ $CPs&R.M.S.&$\text{N}^\circ $CPs&R.M.S.&$\text{N}^\circ $CPs&R.M.S.\\   
+\hline
+ECILS & 49  & 2.6e-02	& 45  &	3.0e-02	& 72  &	3.0e-02\\
+\hline
+DLS   & 49  & 9.4e-02	& 45  &	6.5e-02	& 72  &	3.6e-01\\
+DLS   & 100 & 5.3e-02	& 100 &	4.4e-02	& 100 &	3.3e-01\\
+DLS   & 200 & 2.7e-02	& 200 &	2.8e-02	& 200 &	2.1e-01\\
+\hline
+&\multicolumn{2}{c|}{\includegraphics[width=0.29\textwidth]{noise1}}
+ &\multicolumn{2}{c|}{\includegraphics[width=0.29\textwidth]{noise2}}
+ &\multicolumn{2}{c|}{\includegraphics[width=0.29\textwidth]{noise3}}\\
+\hline
+  \end{tabular}
+
+ \end{table}
+
+
+
  
  Figure \ref{} shows a helix obtained from \subsection{Basic Shapes Approximation}
  Consider
@@ -210,7 +311,7 @@ Then we apply this routine on a level-set solution employed for studying ice for
 
 
 
-
+\bibliography{biblio}
  
  
  

@@ -27,12 +27,12 @@
 #define MAX(A,B)        (((A) < (B)) ? (B) : (A))
 #define DEPS 1.e-12
 
-#define MAX_FALSE_ITERS 20
-#define MIN_PTS_PER_SPAN 1
+#define MAX_FALSE_ITERS 10
+#define MIN_PTS_PER_SPAN 4
 #define MIN_KNOT_DIST 1.e-7
 #define MAX_KNOTS 1000
-#define EPS2 1.e-10
-#define EPS1 1.e-10
+#define EPS2 1.e-8
+#define EPS1 1.e-8
 #define NEWTON_IT_MAX 50
 
 #define SAVE_OPTI_AND_CP 1
@@ -796,7 +796,7 @@ get_minimal_knots (int header[], double spline[], int m, double *error, double t
 
 int
 EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
-		int deg, double *rms, double LS_tol, int maxIter, double delta)
+		int deg, double *rms, double LS_tol, int stepControl, int maxIter, double delta)
 {
 	double updateTOL, L2error, prevL2error, backL2error;
 	double  *t = NULL,  *bSpline = NULL,  *bSplineCopy = NULL, *backSpline = NULL, *XYZ = NULL, *error= NULL, redundantKnotSeq[MAX_KNOTS];
@@ -999,7 +999,10 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
 			}
 			else falseIter      = 0 ;
 			++accepted;
-			updateTOL      = L2error*0.1;
+			if ( stepControl == 1) {
+				updateTOL      = L2error*0.01;
+				while( fabs(log10(prevL2error/updateTOL)) < 1.0) updateTOL*=0.01;
+			}
 			spanLocation   = -1;
 			badCount       = 0 ;
 			redundantKnots = 0 ;
@@ -1011,7 +1014,7 @@ EG_1dBsplineCurveFit(ego context, double *XYZcloud, int m, ego *curve, int n,
 			for ( i = 0 ; i < 4; ++i)	backHeader[i] = header[i];
 			backSpline  = (double*)EG_reall(backSpline,(header[3]+header[2]*3)*sizeof(double));
 			for ( i = 0; i < header[3] + header[2]*3; ++i )	backSpline[i] = bSpline[i];
-			while( fabs(log10(prevL2error/updateTOL)) < 1.0) updateTOL*=0.1;
+
 		}
 		if ( falseIter == MAX_FALSE_ITERS ) {
 			for ( i = 0 ; i < 4; ++i) header[i] = backHeader[i];
@@ -1356,7 +1359,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 {
 
 	clock_t start_t, end_t;
-	int     nPt, nCP, nC, degree, stat,  i, j, nIters;
+	int     nPt, nCP, nC, degree, stat,  i, j, nIters, stepControl;
 	ego     context, curve, *pieces = NULL;
 	double  *xyz = NULL, t, fitting_tol, rms, *tVals = NULL, *err1 = NULL, *err2 = NULL, delta;
 	double  range[2], dPtInv, sum, point[3];
@@ -1390,7 +1393,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 		xyz[3*i+1] = sin(PI*t);
 		xyz[3*i+2] = cos(2.0*PI*t);
 	}
-	stat = EG_1dBsplineCurveFit(context, xyz, nPt, &curve, nCP, degree, &rms, fitting_tol, nIters, delta);
+	stat = EG_1dBsplineCurveFit(context, xyz, nPt, &curve, nCP, degree, &rms, fitting_tol, stepControl, nIters, delta);
 	if (stat == EGADS_SUCCESS) {
 		fIn = fopen("splineSplit.dat", "w");
 		if ( fIn == NULL ) {
@@ -1504,7 +1507,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 {
 	clock_t start_t, end_t;
-	int     nPt, nCP, degree, stat, nChar = 120, i, *splineHeader = NULL, nIters, eD;
+	int     nPt, nCP, degree, stat, nChar = 120, i, *splineHeader = NULL, nIters, eD, stepControl;
 	ego     context, curve;
 	double  rms, point[3], *xyz = NULL, *splineData = NULL, dPtInv, t, fitting_tol, delta;
 	char    fileIn[nChar], fileOut[nChar], line[nChar];
@@ -1520,14 +1523,15 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 #endif
 	eD          = atoi(argv[3]);
 	degree      = 3;
+	stepControl  = 1;
 	if ( argc == 5 ) {
 	  nCP         = atoi(argv[4]);//degree + 1;
 	  nIters = 0;
 	}
 	else {nCP = degree+ 1;
-	nIters      = 500;
+	nIters      = 200;
 	}
-	fitting_tol = 1.E-05;
+	fitting_tol = 5.E-8;
 	delta       = 1.e-10;   // Controls when the algorithm has "stalled" ie,  inserting a new knot improves the L2 error by delta
 
 	strcpy(fileIn,  argv[1]);
@@ -1561,7 +1565,7 @@ int main(/*@unused@*/ int argc, /*@unused@*/ char *argv[])
 		}
 	}
 	fclose(fIn);
-	stat = EG_1dBsplineCurveFit(context,xyz, nPt, &curve, nCP, degree, &rms, fitting_tol, nIters, delta);
+	stat = EG_1dBsplineCurveFit(context,xyz, nPt, &curve, nCP, degree, &rms, fitting_tol, stepControl, nIters, delta);
 	printf(" STAT =  %d\n",stat);
 	if (stat == EGADS_SUCCESS) {
 		fIn = fopen(fileOut, "w");

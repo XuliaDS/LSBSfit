@@ -10,37 +10,96 @@ if plotWiggle ==1
 A = importdata('wiggle_spline');
 B = importdata('wiggle_optimal');
 C = importdata('ice_matlab.dat');
+D = importdata('wiggle_CP');
+OFFSETPOLY = 40;
+sizeD = 100 - OFFSETPOLY;
+DD = ones(sizeD,2);
+nPt = 70;
+nPt2 = 60;
+OFFSET = 70;
 
-nPt = 70
-OFFSET = 70
+for i = 1: sizeD  
+DD(i, 1) = D(i + OFFSETPOLY, 1);
+DD(i, 2) = D(i + OFFSETPOLY, 2);
+end
 AA = ones(nPt,2);
 BB = ones(nPt,2);
 CC = ones(nPt,2);
+OFFSET2 = 34;
+for i = 1: 2*nPt2 + nPt 
+AA(i, 1) = A(i + OFFSET2, 1);
+AA(i, 2) = A(i + OFFSET2, 2);
+end
 for i = 1: nPt
- AA(i,1)= A(i+OFFSET,1);
- AA(i,2)= A(i+OFFSET,2);
+ %AA(i+nPt2,1)= A(i+OFFSET,1);
+% AA(i+nPt2,2)= A(i+OFFSET,2);
  BB(i,1)= B(i+OFFSET,1);
  BB(i,2)= B(i+OFFSET,2);
  CC(i,1)= C(i+OFFSET,1);
  CC(i,2)= C(i+OFFSET,2);
- end
+end
+%for i = nPt + nPt2: nPt + 2*nPt2
+%AA(i, 1) = A(i + nPt , 1);
+%AA(i, 2) = A(i + nPt , 2);
+%end
+ 
 format long
 figure(1)
 
 hold on
-h1 = plot (AA(:,1), AA(:,2), '.',  'markers', 5);
+h1 = plot (AA(:,1), AA(:,2), '.',  'markers', 7);
 h2 = plot (BB(:,1), BB(:,2), 'o',  'markers', 5);
 h3 = plot (CC(:,1), CC(:,2), '--k', 'markers', 3);
 ax = gca % Get handle to current axes.
 ax.XColor = 'w'; % Red
 ax.YColor = 'w'; % Blue
 hold off
+
 h = legend({'Uniform', 'Centripetal',  'Data'},'FontSize',16,'Interpreter','latex','Location','northeastoutside')
-set(gca,'position',[0.1 0.1 0.6 0.6])
+set(gca,'position',[0.1 0.1 0.5 0.5])
 axis off
 
 set(gca,'xtick',[],'ytick',[])
 print('wiggle','-dpdf','-besfit')
+
+figure(11)
+
+hold on
+h3 = plot (CC(:,1), CC(:,2), 'o', 'markers', 7);
+h1 = plot (DD(:,1), DD(:,2), '-.',  'markers', 7, 'LineWidth',1);
+
+ax = gca % Get handle to current axes.
+ax.XColor = 'w'; % Red
+ax.YColor = 'w'; % Blue
+hold off
+h = legend({ 'Data','Control Polygon'},'FontSize',16,'Interpreter','latex','Location','northeastoutside')
+set(gca,'position',[0.1 0.1 0.5 0.5])
+axis off
+
+set(gca,'xtick',[],'ytick',[])
+print('wiggle_CP','-dpdf','-besfit')
+
+
+
+figure(111)
+
+hold on
+h1 = plot (AA(:,1), AA(:,2), '.',  'markers', 7);
+h2 = plot (BB(:,1), BB(:,2), 'o',  'markers', 5);
+h1 = plot (DD(:,1), DD(:,2), '-.',  'markers', 7, 'LineWidth',1);
+h3 = plot (CC(:,1), CC(:,2), '--k', 'markers', 3);
+
+ax = gca % Get handle to current axes.
+ax.XColor = 'w'; % Red
+ax.YColor = 'w'; % Blue
+hold off
+rect = [0.5, 0.5, .4, .4]
+
+h = legend({'Uniform', 'Centripetal', 'Control Polygon', 'Input Data'},'FontSize',16,'Interpreter','latex','Position',rect);
+set(gca,'position',[0 0 1 1])
+axis off
+set(gca,'xtick',[],'ytick',[])
+print('wiggle_ALL','-dpdf','-besfit')
 
 end
 %%

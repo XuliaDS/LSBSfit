@@ -19,16 +19,17 @@
 #define SPHERE_ARC   1
 #define SPHERE_SNAKE 2
 #define HAT          3
+#define SINE         4
 int main (int argc, char *argv[])
 {
   if (argc != 3) {
-    printf(" Usage is %s + SHAPE: 0 = HELIX or 1 = SPHERE_ARC 2= SPHERE_SNAKE + NUMBER OF POINTS \n",argv[0]);
+    printf(" Usage is %s + SHAPE: 0 = HELIX or 1 = SPHERE_ARC 2= SPHERE_SNAKE + HAT = 3 SINE = 4 NUMBER OF POINTS \n",argv[0]);
     exit(1);
   }
   int shape = atoi(argv[1]);
   int NP    = atoi(argv[2]);
   int i, n;
-  double tx, ty, tz, theta, phi;
+  double tx, ty, tz, theta, phi, p;
   FILE *fil;
   switch(shape) {
   case HELIX:
@@ -106,6 +107,20 @@ int main (int argc, char *argv[])
     fclose(fil);
     break;
   }
+  case SINE:
+    {
+      fil = fopen("sine_wave.dat","w");
+      fprintf(fil,"#N: %d\n",NP);
+      printf(" enter number of periods\n");
+      scanf("%lf",&p);
+      for ( i = 0 ; i < NP ; ++i) {
+        tx = 2.0*(double)i/((double)NP-1.0);
+        ty = sin((double)p *tx* PI);// + sin((double)m *ty* PI);
+        fprintf(fil,"%lf\t%lf\t 0.0\n",tx,ty);
+      }
+      fclose(fil);
+      break;
+    }
 
   }
   return 0;

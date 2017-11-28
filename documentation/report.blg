@@ -4,47 +4,46 @@ The top-level auxiliary file: report.aux
 The style file: plain.bst
 Database file #1: biblio.bib
 Warning--I didn't find a database entry for ""
-Warning--I didn't find a database entry for "nurbsbook"
 Warning--empty journal in deboor1968
-You've used 19 entries,
+You've used 23 entries,
             2118 wiz_defined-function locations,
-            622 strings with 6815 characters,
-and the built_in function-call counts, 5500 in all, are:
-= -- 557
-> -- 162
+            644 strings with 7329 characters,
+and the built_in function-call counts, 6583 in all, are:
+= -- 666
+> -- 176
 < -- 0
-+ -- 67
-- -- 48
-* -- 386
-:= -- 932
-add.period$ -- 60
-call.type$ -- 19
-change.case$ -- 77
++ -- 74
+- -- 51
+* -- 458
+:= -- 1113
+add.period$ -- 73
+call.type$ -- 23
+change.case$ -- 90
 chr.to.int$ -- 0
-cite$ -- 20
-duplicate$ -- 212
-empty$ -- 498
-format.name$ -- 48
-if$ -- 1153
+cite$ -- 24
+duplicate$ -- 259
+empty$ -- 614
+format.name$ -- 51
+if$ -- 1387
 int.to.chr$ -- 0
-int.to.str$ -- 19
-missing$ -- 23
-newline$ -- 98
-num.names$ -- 38
-pop$ -- 64
+int.to.str$ -- 23
+missing$ -- 27
+newline$ -- 118
+num.names$ -- 48
+pop$ -- 74
 preamble$ -- 1
-purify$ -- 62
+purify$ -- 71
 quote$ -- 0
-skip$ -- 131
+skip$ -- 155
 stack$ -- 0
-substring$ -- 451
-swap$ -- 18
+substring$ -- 552
+swap$ -- 23
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 68
+type$ -- 84
 warning$ -- 1
-while$ -- 57
-width$ -- 21
-write$ -- 209
-(There were 3 warnings)
+while$ -- 69
+width$ -- 25
+write$ -- 253
+(There were 2 warnings)

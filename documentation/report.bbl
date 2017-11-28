@@ -13,7 +13,7 @@ G.~Beliakov.
 \newblock Applied Mathematical Sciences. {{S}pringer {N}ew {Y}ork}, 2001.
 
 \bibitem{deboor1968}
-{De Boor, C. and Rice, J. R.}
+{de Boor, C. and Rice, J. R.}
 \newblock {{L}east {S}quares {C}ubic {S}pline {A}pproximation {I}--{F}ixed
   {K}nots}.
 \newblock 1968.
@@ -37,59 +37,75 @@ G.~Beliakov.
   15(2):328--343, 1978.
 
 \bibitem{lee1989}
-E.TY. Lee.
+{Lee, E.TY}.
 \newblock {{C}hoosing {N}odes in {P}arametric {C}urve {I}nterpolation}.
 \newblock {\em {{C}omputer-{A}ided {D}esign}}, 21(6):363 -- 370, 1989.
 
 \bibitem{lyche1987}
-T.~Lyche and K.~M\O[]rken.
+{Lyche, T. and M\o rken, K.}
 \newblock {{K}not {R}emoval for {P}arametric {B}-{S}pline {C}urves and
   {S}urfaces}.
 \newblock {\em {{C}omputer {A}ided {G}eometric {D}esign}}, 4(3):217 -- 230,
   1987.
 
-\bibitem{ma1995}
-J.P. Ma, W.~Kruth.
-\newblock {{P}arameterization of {R}andomly {M}easured {P}oints for {L}east
-  {S}quares {F}itting of {B}-{S}pline {C}urves and {S}urfaces}.
-\newblock {\em {{C}omputer-{A}ided {D}esign}}, 27(9):663 -- 675, 1995.
-
 \bibitem{Ma1998}
-{Ma, W. and Kruth, J. -P.}
+{Ma, W. and Kruth, J-P.}
 \newblock {N}{U}{R}{B}{S} {C}urve and {S}urface {F}itting for {R}everse
   {E}ngineering.
 \newblock {\em {T}he {I}nternational {J}ournal of {A}dvanced {M}anufacturing
   {T}echnology}, 14(12):918--927, Dec 1998.
 
+\bibitem{ma1995}
+{Ma, W. Kruth, J-P}.
+\newblock {{P}arameterization of {R}andomly {M}easured {P}oints for {L}east
+  {S}quares {F}itting of {B}-{S}pline {C}urves and {S}urfaces}.
+\newblock {\em {{C}omputer-{A}ided {D}esign}}, 27(9):663 -- 675, 1995.
+
 \bibitem{malladi1995}
-{Malladi, R. and Sethian, J. A. and Vemuri, B. C. }.
+{Malladi, R. and Sethian, J. A. and Vemuri, B. C}.
 \newblock {{S}hape {M}odeling with {F}ront {Pr}opagation: a {L}evel {S}et
   {A}pproach}.
 \newblock {\em {{I}{E}{E}{E} {T}ransactions on {P}attern {A}nalysis and
   {M}achine {I}ntelligence}}, 17(2):158--175, Feb 1995.
 
 \bibitem{park2007}
-H.~Park and J-H. Lee.
+{Park, H. and Lee, J-H.}
 \newblock {{B}-{S}pline {C}urve {F}itting {B}ased on {A}daptive {C}urve
   {R}efinement {U}sing {D}ominant {P}oints}.
 \newblock {\em {{C}omputer-{A}ided D{}esign}}, 39(6):439 -- 451, 2007.
 
 \bibitem{piegl1989}
-L.~Piegl.
+{Piegl, L.}
 \newblock {{M}odifying the {S}hape of {R}ational {B}-{S}plines. {P}art 1:
   {C}urves}.
 \newblock {\em {{C}omputer-{A}ided {D}esign}}, 21(8):509 -- 518, 1989.
-
-\bibitem{piegl2000}
-L.A. Piegl and W.~Tiller.
-\newblock {{S}urface {A}pproximation to {S}canned {D}ata}.
-\newblock {\em {{T}he {V}isual C{}omputer}}, 16(7):386--395, Nov 2000.
 
 \bibitem{nurbs_book}
 {Piegl, L. and Tiller, W.}
 \newblock {\em {{T}he {N}{U}{R}{B}{S} {B}ook}}.
 \newblock Monographs in Visual Communication. {{S}pringer {Be}rlin
   {H}eidelberg}, 2012.
+
+\bibitem{piegl1999}
+{Piegl, L.A. and Tiller, W.}
+\newblock {{C}omputing {O}ffsets of {N}{U}{R}{B}{S} {C}urves and {S}urfaces}.
+\newblock {\em {{C}omputer-{A}ided {D}esign}}, 31(2):147 -- 156, 1999.
+
+\bibitem{piegl2000}
+{Piegl, L.A. and Tiller, W.}
+\newblock {{S}urface {A}pproximation to {S}canned {D}ata}.
+\newblock {\em {{T}he {V}isual C{}omputer}}, 16(7):386--395, Nov 2000.
+
+\bibitem{randrzanarivony2002}
+{Randrianarivoy, M. and Brunnett, G.}
+\newblock {{A}pproximation by {N}{U}{R}{B}{S} {C}urves with {F}ree {K}nots.}
+\newblock In {Greiner, G}, editor, {\em {{V}ision, {M}odeling and
+  {V}isualization}}. {{I}{O}{S} {P}ress}, November {2002}.
+
+\bibitem{sarkar1991}
+{Sarkar, B. and Mengh, C-H.}
+\newblock {{S}mooth-{S}urface {A}pproximation and {R}everse {E}ngineering}.
+\newblock {\em {{C}omputer-{A}ided {D}esign}}, 23(9):623 -- 628, 1991.
 
 \bibitem{schumaker2015spline}
 {Schumaker, L.L.}
@@ -108,8 +124,14 @@ T.~Speer, M.~Kuppe, and J.~Hoschek.
 \newblock {\em {{C}omputer {A}ided {G}eometric {D}esign}}, 15(9):869 -- 877,
   1998.
 
+\bibitem{tiller1992}
+{Tiller, W.}
+\newblock {{K}not-{R}emoval {A}lgorithms for {N}{U}{R}{B}{S} {C}urves and
+  {S}urfaces}.
+\newblock {\em {{C}omputer-{A}ided {D}esign}}, 24(8):445 -- 453, 1992.
+
 \bibitem{boehm1980}
-B.~Wolfgang.
+{Wolfgang, B.}
 \newblock {{I}nserting {N}ew {K}nots into {B}-{S}pline {C}urves}.
 \newblock {\em {{C}omputer-{A}ided {D}esign}}, 12(4):199 -- 201, 1980.
 

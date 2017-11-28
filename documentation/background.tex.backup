@@ -5,14 +5,14 @@
  the $i^{th}$ B-spline of degree $p$ can be defined through the recurrence formula:
  \begin{align}
  N_{i,0} &= \left\{ \begin{aligned}
-                    1 \quad &\text{if } u_i\leq u\leq u_{i+1}\\
+                    1 \quad &\text{if } u_i\leq t\leq u_{i+1}\\
                     0 \quad &\text{otherwise }
                    \end{aligned}\right. \\
-N_{i,p} &= \frac{u - u_i}{u_{i+p} - u_i}N_{i,p-1}(u) +  \frac{u_{i+p+1} - u}{u_{i+p+1} - u_{i+1}}N_{i+1,p-1}(u). 
+N_{i,p} &= \frac{t - u_i}{u_{i+p} - u_i}N_{i,p-1}(t) +  \frac{u_{i+p+1} - t}{u_{i+p+1} - u_{i+1}}N_{i+1,p-1}(t). 
  \end{align}
  A B-spline curve is defined as a combination of B-splines of the form:
  \begin{equation}
-  C(u) = \sum_{i=0}^n N_{i,p}(u) \textbf P_i, \quad  \textbf P_i = \text{control points}.
+  C(t) = \sum_{i=0}^n N_{i,p}(t) \textbf P_i, \quad  \textbf P_i = \text{control point}.
  \end{equation}
 From this definition and as shown in Figure \ref{fig:bspline_sine}, 
 it is clear that the approximation degree, 
@@ -20,38 +20,91 @@ knot sequence and control polygon fully determine a B-spline curve.
 \begin{figure}
  \centering
  \includegraphics[width =\textwidth]{sineBspline-crop}
- \caption{\label{fig:bspline_sine} A cubic B-spline curve approximation to a piece of a sine wave employing eight control point ant the knot sequence 
+ \caption{\label{fig:bspline_sine} A cubic B-spline curve approximation to a piece of a sine wave employing nine
+ control poinst ant the knot sequence 
  $U=\left\{u_0,\dots,u_{12}\right\}$.}
 \end{figure}
 
 
 \subsection{Linear Least Squares Approximation}
-For a given a data set $\left\{X_i\right\}_{i=1}^m$ and $n>m$ control points, we look for the B-spline curve 
-\begin{equation}
- C(u) = \sum_{i=0}^n N_{i,p} P_i,\quad u\in[0,1]
-\end{equation}\label{eq:least_squares_equation1}
+Given a data set $\left\{X_i\right\}_{i=1}^m$ and $n>m$ control points, 
+we look for the B-spline curve 
+\begin{equation}\label{eq:least_squares_equation1}
+ C(t) = \sum_{i=0}^n N_{i,p}(t) \textbf P_i,\quad t\in[0,1]
+\end{equation}
 that approximates the data in the least squares sense:
+\begin{enumerate}
+ \item $ C(0)= X_0, \quad \  C(1) = X_m\quad \text{and}$
+ \item $\sum _{k= 1}^{m-1}\left | X_k - C(t_k)\right|^2\quad \text{is a minimum with respect }\mathbf P_i.$
+\end{enumerate}
+Here the $t_k$ are associated to each data point ($X_k$) 
+by a previously chosen parametrization. 
+
+The solution to this problem can be found as follows \cite[Ch. 9.4.1]{nurbs_book}:
+let 
 $$
-\sum _{k= 1}^{m-1}\left | X_k - C(t_k)\right|^2,\quad C(0)= X_0\ \text {and}\  C(1) = X_m.
+ R_k = Q_k - N_{0,p}(t_k)\cdot Q_0 - N_{m,p}(t_k)\cdot Q_m,  \quad k = 1,\ldots, m-1.
 $$
-Let 
-$$
- R_k = Q_k - N_{0,p}(t_k)Q_0 - N_{m,p}(t_k)Q_m,  k = 1,\ldots, m-1, 
-$$
-since the B-spline knots are fixed, minimizing equation \eqref{eq:least_squares_equation1} gives:
+Since the B-spline knots are fixed, minimizing equation \eqref{eq:least_squares_equation1} gives:
 \begin{equation}\label{eq:linear_least_squares_solver}
  \sum_{i=1}^{n-1} \left(N_{\ell, p}(t_k)N_{i,p}(t_k)\right)P_i= \sum_{k=1}^{m-1}N_{\ell,[}(t_k)R_k, \quad \ell= 1\ldots, n-1
 \end{equation}
- which produces a determined system of equations that can be solved applying any linear matrix solver. For more details, see \cite{nurbs_book}.
-The limitations of this solver is that a suitable approximation assumes prior knowledge of the ``correct'' number of control points as well as the knot 
-location. The algorithm presented next consists of inserting a new knot at 
-each iteration followed by solving the new least squares problem applying equation \eqref{eq:least_squares_equation1}. 
-
-
-Curve Reconstruction
+ which produces a determined system of equations that can be solved applying
+ any linear matrix solver. The only restrictions on the knot-sequence is the Whitney-condition:
  
- Least Squares Solvers
- Linear versus Non Linear
+The downside of a solver of this kind is that 
+it assumes prior knowledge of the ``correct'' number of control points as well as the knot 
+location. In order to overcome this, we propose an algorithm which strategically inserts new knots as part of an 
+error controlled iterative scheme. We wish to remmark that the optimization function remains linear and as a 
+function of the control points only. The knot sequence increases within each iteration 
+and is based on the error bisection approach presented next. 
+ 
+\subsubsection{Knot Placement}\ref{sec:knot_placment}
+A suitable knot sequence must ensure that each span contains at least one $t_k$ value so that \eqref{eq:linear_least_squares_solver} is well posed. 
+We start with the minimum number of control points ($n = p$) and the following \emph{clamped} knot sequence 
+$U=\left\{0,\underbrace{\ldots}_{p-1},0,1,\underbrace{\ldots}_{p-1},1\right\}$. 
+
+ Then, at each iteration, we find the span with greatest squared error: 
+ $$e_k = \frac{1}{N_k}\sum_{i=1}^{N_k} (C(t_i) - X_i)^2,\quad N_k = \# t_i\in [u_k, u_{k+1}), i=1,\ldots,m-1.$$
+and look for the first $t_i$ such that $t_i >= \frac{e_k}{2}$ and we insert a knot $\tilde u = 0.5(t_i+t_{i+1})$. 
+This knot choice ensures that the spans $[u_i, u),\ [u,u_{i+1)$ are non empty. Alternatively, as proposed in \cite{}, one could find all the spans that are 
+above certain tolerance and insert a new knot in between. However, this leads to an excessive number of control points since it is not taken account the fact 
+that each span has impact in more than one control point. 
+Furthermore, a span bisection does not account for the error distribution within the span nor 
+the fact that it can produce empty spans. Our results suggest that a strategic knot insertion consistently improves the error as shown in Figure \ref{fig:}. 
+
+It is well known that as the number of control points reach the number of data points ($n=m$), the spline curve might develop wiggles. 
+Hence, the knot inserction process needs to be controlled so that ``locally'', the approximation process does not attempt interpolate each data point. 
+This is achieved by introducing the following constraints: the new knot has to be at a \emph{minimum} distance from its neighboring knots and 
+which we have set to $1.e-06$. 
+ \item The user can specify a minimum $t_k$'s per span, ($>1$ ). 
+\end{enumerate}
+
+\subsubsection{The Algorithm}
+Now that the least squares approach and knot placement have been discussed, we introduce the main algorithm and discuss implementation 
+details. Once the desired tolerance is selected, we use the centripetal method in order to obtain a curve parametrization: 
+\begin{align}
+ d &= \sum_{k=1}^n \sqrt {| X_k-X_{k-1}|},\\
+ t_0 &=0,\ t_m=1,\quad t_k = t_{k-1} + \frac{\sqrt{|X_k-X_{k-1}|}}{d},\quad k = 1,\ldots, m-1.
+ \end{align}
+This method has proven to be suitable for detecting curve features such as ``cusps'' \cite{}. 
+\begin{note}
+ If the initial number of control points is set $n > p$, we define the internal knots sequence proposed by proposed by \cite{}: 
+  \begin{align}
+  d &= \frac{m+1}{n-p+1} \Rightarrow i = int(j\cdot d),\quad \alpha = jd -i\\
+  u_{p+j} &= (1-\alpha)u_{i-1} + \alpha u_i,\quad j = 1,\ldots,n-p.
+ \end{align}
+\end{note}
+
+At each iteration, we solve \eqref{} and compute the global error. If we haven't reached the desired tolerance, 
+we insert a knot as discussed in section \ref{sec:knot_placment} and find the new control points. If the 
+new configuration has not significantly improved the previous iteration, we reject the knot and find the next worst error. 
+ If all knots were found to be ``unsuitable'' we proceed with the best configuration, insert a new knot and tag its 
+ value. Once a significant improvement has been found, we try to remove all the ``redundant'' points computed between the tagged knot and the 
+ knot at valid iteration and when possible, the knots in between are removed. The algorithm stops when either the tolerance has reached, 
+ the number of iterations have exceeded the maximum or when the approximation has stagnated: no new knot 
+ produces a better approximation. The implementation steps are shown in Algorithm \ref{alg:solver}. 
+
  
  
  \section{The Algorithm}
@@ -90,48 +143,6 @@ This curve discretization does observe the curve behavior between the evaluation
 curve zone will not be altered ($i.e.$, candidate for knot-removal in a knot decreasing iterative scheme) thus, producing undesirable results. Furthermore, knot spans that contain few $t$-values can end up having a dense control point area 
 producing wiggles. Again, from the least-squares perspective, such wiggles do not exist as illustrated in Figure \ref{fig:wiggle_unif_vs_centr}.
 
-
-\subsubsection{Knot Placement}\ref{sec:knot_placment}
-A suitable knot sequence must ensure that each span contains at least one $t_k$ value so that \eqref{eq:linear_least_squares_solver} is well posed. 
-We start with the minimum number of control points ( $n = p$) and the following knot sequence 
-$U=\left\{0,\underbrace{\ldots}_{p-1},0,1,\underbrace{\ldots}_{p-1},1\right\}$. 
- At each iteration, we find the span with greatest squared error: 
- $$e_k = \frac{1}{N_k}\sum_{i=1}^{N_k} (C(t_i) - X_i)^2,\quad N_k = \# t_i\in [u_k, u_{k+1}), i=1,\ldots,m-1.$$
-At $e_k$, we look for the first $t_i$ such that $t_i >= e_k/2$ and we insert a knot $\tilde u = 0.5(t_i+t_{i+1})$. 
- \begin{remark}
-  This knot choice ensures that every new span is non empty. 
- \end{remark}
-In order to avoid concentrating too many control points at a particular zone, we introduce two additional 
-constraints in our knot choice:
-\begin{enumerate}
- \item The new knot has to be at a \emph{minimum} distance from the its neighboring knots which we have set to $1.e-06$. 
- \item The user can specify a minimum $t_k$'s per span, ($>1$ ). 
-\end{enumerate}
-
-\subsubsection{The Algorithm}
-Now that the least squares approach and knot placement have been discussed, we introduce the main algorithm and discuss implementation 
-details. Once the desired tolerance is selected, we use the centripetal method in order to obtain a curve parametrization: 
-\begin{align}
- d &= \sum_{k=1}^n \sqrt {| X_k-X_{k-1}|},\\
- t_0 &=0,\ t_m=1,\quad t_k = t_{k-1} + \frac{\sqrt{|X_k-X_{k-1}|}}{d},\quad k = 1,\ldots, m-1.
- \end{align}
-This method has proven to be suitable for detecting curve features such as ``cusps'' \cite{}. 
-\begin{note}
- If the initial number of control points is set $n > p$, we define the internal knots sequence proposed by proposed by \cite{}: 
-  \begin{align}
-  d &= \frac{m+1}{n-p+1} \Rightarrow i = int(j\cdot d),\quad \alpha = jd -i\\
-  u_{p+j} &= (1-\alpha)u_{i-1} + \alpha u_i,\quad j = 1,\ldots,n-p.
- \end{align}
-\end{note}
-
-At each iteration, we solve \eqref{} and compute the global error. If we haven't reached the desired tolerance, 
-we insert a knot as discussed in section \ref{sec:knot_placment} and find the new control points. If the 
-new configuration has not significantly improved the previous iteration, we reject the knot and find the next worst error. 
- If all knots were found to be ``unsuitable'' we proceed with the best configuration, insert a new knot and tag its 
- value. Once a significant improvement has been found, we try to remove all the ``redundant'' points computed between the tagged knot and the 
- knot at valid iteration and when possible, the knots in between are removed. The algorithm stops when either the tolerance has reached, 
- the number of iterations have exceeded the maximum or when the approximation has stagnated: no new knot 
- produces a better approximation. The implementation steps are shown in Algorithm \ref{alg:solver}. 
 
 
 \subsubsection{Computational Costs}

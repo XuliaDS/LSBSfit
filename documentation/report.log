@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.11.18)  28 NOV 2017 08:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.8.30)  4 DEC 2017 18:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **report.tex
 (./report.tex
 LaTeX2e <2016/02/01>
-Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
+Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
@@ -1174,7 +1174,16 @@ Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count191
- [1
+LaTeX Font Info:    Try loading font information for U+msa on input line 103.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 103.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
 Non-PDF special ignored!
 Non-PDF special ignored!
 Non-PDF special ignored!
@@ -1190,134 +1199,115 @@ Non-PDF special ignored!
 Non-PDF special ignored!
 Non-PDF special ignored!{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 
-LaTeX Warning: Reference `' on page 2 undefined on input line 127.
+LaTeX Warning: Reference `' on page 2 undefined on input line 129.
 
 
-LaTeX Warning: Reference `' on page 2 undefined on input line 130.
-
-
-LaTeX Warning: Reference `' on page 2 undefined on input line 131.
+LaTeX Warning: Reference `' on page 2 undefined on input line 132.
 
 
 LaTeX Warning: Reference `' on page 2 undefined on input line 133.
 
-(./background.tex
-LaTeX Font Info:    Try loading font information for U+msa on input line 4.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 4.
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [2]
-<sineBspline-crop.pdf, id=21, 389.455pt x 191.71625pt>
+LaTeX Warning: Reference `' on page 2 undefined on input line 135.
+
+(./background.tex [2] <sineBspline-crop.pdf, id=21, 389.455pt x 191.71625pt>
 File: sineBspline-crop.pdf Graphic file (type pdf)
 
 <use sineBspline-crop.pdf>
 Package pdftex.def Info: sineBspline-crop.pdf used on input line 22.
 (pdftex.def)             Requested size: 390.0pt x 191.99075pt.
  [3 <./sineBspline-crop.pdf>]
-<wiggle_ALL-crop.pdf, id=28, 400.49625pt x 336.25626pt>
+
+LaTeX Warning: Reference `sec:knot_placment' on page 4 undefined on input line 
+62.
+
+
+LaTeX Warning: Reference `fig:' on page 4 undefined on input line 81.
+
+[4] <wiggle_ALL-crop.pdf, id=32, 400.49625pt x 336.25626pt>
 File: wiggle_ALL-crop.pdf Graphic file (type pdf)
 
 <use wiggle_ALL-crop.pdf>
-Package pdftex.def Info: wiggle_ALL-crop.pdf used on input line 84.
+Package pdftex.def Info: wiggle_ALL-crop.pdf used on input line 101.
 (pdftex.def)             Requested size: 400.49527pt x 336.25543pt.
 
-Overfull \hbox (10.49527pt too wide) in paragraph at lines 84--86
+Overfull \hbox (10.49527pt too wide) in paragraph at lines 101--103
 [][] 
  []
 
+[5] [6 <./wiggle_ALL-crop.pdf>]
 
-LaTeX Warning: Reference `fig:wiggle_unif_vs_centr' on page 4 undefined on inpu
-t line 98.
-
-[4] [5 <./wiggle_ALL-crop.pdf>]
-
-LaTeX Warning: Reference `sec:knot_placment' on page 6 undefined on input line 
-101.
-
-
-Overfull \hbox (12.58327pt too wide) in paragraph at lines 101--106
-\OT1/cmr/m/n/12 trol points ( $\OML/cmm/m/it/12 n \OT1/cmr/m/n/12 = \OML/cmm/m/
-it/12 p$\OT1/cmr/m/n/12 ) and the fol-low-ing knot se-quence $\OML/cmm/m/it/12 
-U \OT1/cmr/m/n/12 = []$.
- []
-
-[6]
-
-LaTeX Warning: Reference `' on page 7 undefined on input line 134.
+LaTeX Warning: Reference `' on page 7 undefined on input line 123.
 
 
 LaTeX Warning: Reference `sec:knot_placment' on page 7 undefined on input line 
-135.
+124.
 
 
-LaTeX Warning: Reference `alg:solver' on page 7 undefined on input line 141.
+LaTeX Warning: Reference `alg:solver' on page 7 undefined on input line 130.
+
+
+LaTeX Warning: Reference `fig:wiggle_unif_vs_centr' on page 7 undefined on inpu
+t line 152.
 
 [7] <snake-crop.pdf, id=46, 371.3875pt x 277.035pt>
 File: snake-crop.pdf Graphic file (type pdf)
  <use snake-crop.pdf>
-Package pdftex.def Info: snake-crop.pdf used on input line 176.
+Package pdftex.def Info: snake-crop.pdf used on input line 189.
 (pdftex.def)             Requested size: 163.79929pt x 122.18744pt.
 
 <naca27-crop.pdf, id=47, 370.38374pt x 279.0425pt>
 File: naca27-crop.pdf Graphic file (type pdf)
  <use naca27-crop.pdf>
-Package pdftex.def Info: naca27-crop.pdf used on input line 177.
+Package pdftex.def Info: naca27-crop.pdf used on input line 190.
 (pdftex.def)             Requested size: 163.79929pt x 123.40497pt.
 
-Overfull \hbox (20.70093pt too wide) in paragraph at lines 163--180
+Overfull \hbox (20.70093pt too wide) in paragraph at lines 175--193
  [][] 
  []
 
 
 LaTeX Warning: Reference `fig:sphere_snake' on page 8 undefined on input line 1
-80.
+93.
 
 
 LaTeX Warning: Reference `fig:sphere_snake' on page 8 undefined on input line 1
-80.
+93.
 
-<noise1.pdf, id=48, 434.62375pt x 344.28625pt>
+<noise1.pdf, id=48, 427.5975pt x 319.1925pt>
 File: noise1.pdf Graphic file (type pdf)
  <use noise1.pdf>
-Package pdftex.def Info: noise1.pdf used on input line 199.
-(pdftex.def)             Requested size: 113.09738pt x 89.58585pt.
+Package pdftex.def Info: noise1.pdf used on input line 202.
+(pdftex.def)             Requested size: 113.09738pt x 84.42488pt.
 
-<noise2.pdf, id=49, 435.6275pt x 342.27875pt>
+<noise2.pdf, id=49, 427.5975pt x 319.1925pt>
 File: noise2.pdf Graphic file (type pdf)
  <use noise2.pdf>
-Package pdftex.def Info: noise2.pdf used on input line 200.
-(pdftex.def)             Requested size: 113.09738pt x 88.8598pt.
+Package pdftex.def Info: noise2.pdf used on input line 203.
+(pdftex.def)             Requested size: 113.09738pt x 84.42488pt.
 
-<noise3.pdf, id=50, 434.62375pt x 343.2825pt>
+<noise3.pdf, id=50, 426.59375pt x 319.1925pt>
 File: noise3.pdf Graphic file (type pdf)
  <use noise3.pdf>
-Package pdftex.def Info: noise3.pdf used on input line 201.
-(pdftex.def)             Requested size: 113.09738pt x 89.32466pt.
-
-Overfull \hbox (33.88068pt too wide) in paragraph at lines 187--204
-[][] 
- []
+Package pdftex.def Info: noise3.pdf used on input line 204.
+(pdftex.def)             Requested size: 113.09738pt x 84.62456pt.
 
 
-LaTeX Warning: Reference `' on page 8 undefined on input line 210.
+LaTeX Warning: Reference `' on page 8 undefined on input line 215.
 
-) (./report.bbl [8 <./snake-crop.pdf> <./naca27-crop.pdf>] [9 <./noise1.pdf> <.
-/noise2.pdf> <./noise3.pdf>] [10]) [11] (./report.aux)
+) (./report.bbl [8 <./noise1.pdf> <./noise2.pdf> <./noise3.pdf>] [9 <./snake-cr
+op.pdf> <./naca27-crop.pdf>] [10]) [11] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 20281 strings out of 494953
- 379952 string characters out of 6180976
- 481538 words of memory out of 5000000
- 23127 multiletter control sequences out of 15000+600000
+ 20283 strings out of 493029
+ 379982 string characters out of 6136234
+ 486387 words of memory out of 5000000
+ 23380 multiletter control sequences out of 15000+600000
  10771 words of font info for 40 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
+ 1141 hyphenation exceptions out of 8191
  53i,17n,92p,610b,374s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
@@ -1329,7 +1319,7 @@ type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmti12.pfb>
-Output written on report.pdf (11 pages, 379684 bytes).
+Output written on report.pdf (11 pages, 378637 bytes).
 PDF statistics:
  111 PDF objects out of 1000 (max. 8388607)
  73 compressed objects within 1 object stream

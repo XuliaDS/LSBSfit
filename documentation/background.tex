@@ -55,26 +55,33 @@ Since the B-spline knots are fixed, minimizing equation \eqref{eq:least_squares_
 The downside of a solver of this kind is that 
 it assumes prior knowledge of the ``correct'' number of control points as well as the knot 
 location. In order to overcome this, we propose an algorithm which strategically inserts new knots as part of an 
-error controlled iterative scheme. We wish to remmark that the optimization function remains linear and as a 
+error controlled iterative scheme. We wish to remark that the optimization function remains linear and as a 
 function of the control points only. The knot sequence increases within each iteration 
 and is based on the error bisection approach presented next. 
  
 \subsubsection{Knot Placement}\ref{sec:knot_placment}
 A suitable knot sequence must ensure that each span contains at least one $t_k$ value so that \eqref{eq:linear_least_squares_solver} is well posed. 
 We start with the minimum number of control points ($n = p$) and the following \emph{clamped} knot sequence 
-$U=\left\{0,\underbrace{\ldots}_{p-1},0,1,\underbrace{\ldots}_{p-1},1\right\}$. 
+$U=\{0,\underbrace{\ldots}_{p-1},0,1,\underbrace{\ldots}_{p-1},1\}$. 
 
  Then, at each iteration, we find the span with greatest squared error: 
- $$e_k = \frac{1}{N_k}\sum_{i=1}^{N_k} (C(t_i) - X_i)^2,\quad N_k = \# t_i\in [u_k, u_{k+1}), i=1,\ldots,m-1.$$
-and look for the first $t_i$ such that $t_i >= \frac{e_k}{2}$ and we insert a knot $\tilde u = 0.5(t_i+t_{i+1})$. 
-This knot choice ensures that the spans $[u_i, u),\ [u,u_{i+1)$ are non empty. Alternatively, as proposed in \cite{}, one could find all the spans that are 
-above certain tolerance and insert a new knot in between. However, this leads to an excessive number of control points since it is not taken account the fact 
-that each span has impact in more than one control point. 
+ $$e_k = \frac{1}{N_k}\sum_{i=1}^{N_k} (C(t_i) - X_i)^2,\quad N_k = \# t_i\in [u_k, u_{k+1}),\ i=1,\ldots,m-1, $$
+ where the distance function is computed as follows:
+ \begin{equation}
+  C(t_i) - X_i = \min_{t\in[0,1]} |C(t) -  X_i|,
+ \end{equation}
+$i.e.$, the \emph{actual} distance to the data. The new knot position is determined by
+ the first $t_i$ such that $t_i >= \frac{e_k}{2}$ and taking
+ the value $\tilde u = 0.5(t_i+t_{i+1})$. This knot choice ensures that the spans $[u_i, \tilde u),\ [\tilde u,u_{i+1})$ are non empty. 
+Alternatively, one could find all the spans that are 
+above the targeted tolerance and bisect each of them \cite[Ch. ]{nurbs_book}. 
+ However, this may lead to an excessive number of control points since it does not account  
+ for the fact that each span has impact in more than one control point. 
 Furthermore, a span bisection does not account for the error distribution within the span nor 
 the fact that it can produce empty spans. Our results suggest that a strategic knot insertion consistently improves the error as shown in Figure \ref{fig:}. 
 
 It is well known that as the number of control points reach the number of data points ($n=m$), the spline curve might develop wiggles. 
-Hence, the knot inserction process needs to be controlled so that ``locally'', the approximation process does not attempt interpolate each data point. 
+Hence, the knot insertion process needs to be controlled so that ``locally'', the approximation process does not attempt interpolate each data point. 
 This is accomplished by introducing the following constraints: the new knot has to be at a \emph{minimum} distance from its neighboring knots and initially, 
 the minimum $t_k$'s per span should be set greater than one. We say initially because for sharp features with few data support, this condition may need to be relaxed in order 
 to for example, detect a cusp.
@@ -171,11 +178,12 @@ Then we apply this routine on a level-set solution employed for studying ice for
  \hline
   &\multicolumn{2}{c||}{\textbf{Sphere Curve}} & \multicolumn{2}{c||}{\textbf{NACA}}\\
 
- & ECILS& DLS & ECILS & DLS\\
+ TOL& ECILS& DLS & ECILS & DLS\\
  \hline
-1.0e-05 & 24	& 20 & 12 & 19\\
-1.0e-06 & 40	& 32 & 27 & 35\\
-1.0e-07 & 73	& 54 & 40 & 52 \\
+1.0e-05 & 30 & 22 & 10 & 19 \\%& 33 & 67\\
+1.0e-06 & 52 & 36 & 19 & 35 \\%& &\\
+1.0e-07 & 84 & 60 & 42 & 54 \\%& &\\
+
 \hline
 &\multicolumn{2}{c||}{}&\multicolumn{2}{c||}{}\\
 &\multicolumn{2}{c||}{\includegraphics[width=0.42\textwidth]{snake-crop}}
@@ -188,26 +196,18 @@ Then we apply this routine on a level-set solution employed for studying ice for
  
  
  
- \begin{table}
-  \begin{tabular}{|l |cc |cc| cc|}
+ \begin{figure}
+  \begin{tabular}{ccc}
   \hline
-  &\multicolumn{2}{c|}{{Noisy Data 1}}&\multicolumn{2}{c|}{{Noisy Data 2}}&\multicolumn{2}{c|}{{Noisy Data 3}}\\
-  \hline
-Solver& $\text{N}^\circ $CPs&R.M.S.&$\text{N}^\circ $CPs&R.M.S.&$\text{N}^\circ $CPs&R.M.S.\\   
-\hline
-ECILS & 49  & 2.6e-02	& 45  &	3.0e-02	& 72  &	3.0e-02\\
-\hline
-DLS   & 49  & 9.4e-02	& 45  &	6.5e-02	& 72  &	3.6e-01\\
-DLS   & 100 & 5.3e-02	& 100 &	4.4e-02	& 100 &	3.3e-01\\
-DLS   & 200 & 2.7e-02	& 200 &	2.8e-02	& 200 &	2.1e-01\\
-\hline
-&\multicolumn{2}{c|}{\includegraphics[width=0.29\textwidth]{noise1}}
- &\multicolumn{2}{c|}{\includegraphics[width=0.29\textwidth]{noise2}}
- &\multicolumn{2}{c|}{\includegraphics[width=0.29\textwidth]{noise3}}\\
+{\includegraphics[width=0.29\textwidth]{noise1}}
+&{\includegraphics[width=0.29\textwidth]{noise2}}
+&{\includegraphics[width=0.29\textwidth]{noise3}}\\
 \hline
   \end{tabular}
-
- \end{table}
+\caption{\label{fig:noise_DLS_vs_ECILS} Three data samples from Raman Spectroscopies (*) 
+and the resulting approximation using the new algorithm versus a direct fit for different number of control points. 
+}
+ \end{figure}
 
 
 

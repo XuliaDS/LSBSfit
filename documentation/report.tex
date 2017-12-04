@@ -87,41 +87,43 @@
   Thus, the solution is found by casting a suitable optimization problem, 
   usually based on the least-squares minimization \cite{nurbs_book, deboor2001practical, schumaker2015spline}. 
    The methodology proposed here attempts to solve the \emph{minimal} spline problem 
-   from a heuristic approach, where knots are strategically introduced 
+    using a heuristic approach where knots are strategically introduced 
    as part of an iterative scheme that drives the solution towards a desired accuracy. 
       
   The simplest solution to the spline least-squares optimization problem is to fix the number of control points,
   prescribe a knot sequence alongside a suitable curve parametrization and solve a linear system for the 
   control points \cite[Ch. 9.4]{nurbs_book}, \cite{deboor1968}. 
   The usual parametrization choices are based on the chord-length or centripetal models  which 
-  have proven to improve the quality of the approximation \cite{hoschek1988,speer1998,lee1989, ma1995}, 
-  especially for detection of sharp features. 
+  have proven to improve the quality of the approximation, 
+  especially for detection of sharp features such as ``cusps'' \cite{hoschek1988,speer1998,lee1989, ma1995}. 
   On the other hand, a fixed knot sequence may be too oversimplified and 
   shape manipulation (knot insertion/removal) \cite{piegl1989, boehm1980, goldman1992} 
-   can be introduced as part of an error controlled iterative scheme; 
-   one can continuously insert new knots and solve a new least-squares problem until a specified tolerance is attained
-    \cite{piegl2000, park2007}. Alternatively, one can  initially set a large number of control points and remove knots successively until the 
-     quality of the approximation is destroyed \cite{lyche1987, tiller1992}. 
+   can be introduced as part of an error controlled iterative scheme. For example, 
+   con continuously inserting new knots and applying least-squares minimization 
+   ($i.e.$ find new control points) until a specified tolerance is attained
+    \cite{piegl2000, park2007}. Alternatively, one can starting with a large number 
+    of control points and remove knots successively as long as the 
+     quality of the approximation is not destroyed \cite{lyche1987, tiller1992}. 
    Ultimately, the problem can be formulated as a non-linear optimization, allowing 
    ``free knots'' as part of the least-squares solution \cite{schwetlick1995least, beliakov2004}. 
    The free-knots problem generally yields to better results but this occurs at the expense 
    of computational efficiency \cite{randrzanarivony2002} and in addition, it can result 
-   in many stationary points \cite{jupp1978}. 
-
-   This paper presents a new algorithm that combines 
-   a least squares solver together with an error controlled knot insertion. 
-   Starting with the minimum number of control points, at each iteration a new knot is introduced 
-   at the span with greatest weighted error and a new set of control points are computed. The new step is considered valid if the error has improved up to a prescribed tolerance. 
-    Otherwise, the knot is rejected and a new knot is inserted at the next span with greatest error. 
-    If none of the new knots overcome this tolerance, the scheme proceeds with the \emph{best} candidate and tags this knot. 
-    Once a valid step is found,  starting at the tagged knot, 
-    it attempts to remove any \emph{redundant} knot.
-    The algorithm stops when either the global error hits certain tolerance (1), it has 
-    reached the maximum number of iterations (2) or no new knots can improve the current approximation (3). 
-  Although we cannot prove that the number of control points is optimal, 
+   in many stationary points \cite{jupp1978}.
+   
+   This paper presents a new algorithm from the \emph{knot insertion} category; 
+   starting with a minimum number of knots, we look for the span with greatest weighted error, 
+   insert a new knot and find the control points using a linear least-squares solver. 
+   If the new approximation is above the tolerance step, the knot sequence is updated. 
+   Otherwise, the step is and a new knot is inserted at the next  "high-error" span. 
+   When no new knots overcome the step control, the scheme proceeds with the "best so far", 
+   tags the knot location and when a valid step is found, 
+   attempts to remove any potential redundant knots. 
+    The algorithm stops if either the global error hits certain tolerance (1), it has 
+    reached the maximum number of iterations (2) or no new knots can 
+    improve the current approximation (3). 
+  Although we cannot prove that this strategy is optimal, 00
   our results suggest that this knot distribution leads to accurate results
-  remaining at relatively low computational costs, thus becoming a 
-  suitable tool for engineering applications. 
+  remaining at relatively low computational costs, thus beco                    ming suitable  for engineering applications. 
   
    
    In the following sections we discuss the different aspects of our method. Section \ref{} defines 

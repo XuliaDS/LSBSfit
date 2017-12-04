@@ -1,0 +1,181 @@
+ EG_open          = 0
+  Fitting for 459 data points
+ Initial RMS using 4 CPS = 3.24823e-03
+ L2 error  2.7171e-03  prev  3.2482e-03 update  0.0000e+00
+ L2  2.7171e-04  tol  1.0000e-05  
+ LL2/prev   2.1068e-04  TOL   2.7171e-04    2.7171e-04
+ L2 error  2.5404e-03  prev  2.7171e-03 update  2.7171e-04
+reject: 1  
+ L2 error  2.4213e-03  prev  2.7171e-03 update  2.7171e-04
+ L2  2.4213e-04  tol  1.0000e-05  
+ LL2/prev   1.2120e-04  TOL   2.4213e-04    2.4213e-04
+ L2 error  2.0246e-03  prev  2.4213e-03 update  2.4213e-04
+ L2  2.0246e-04  tol  1.0000e-05  
+ LL2/prev   1.5736e-04  TOL   2.0246e-04    2.0246e-04
+ L2 error  2.1133e-03  prev  2.0246e-03 update  2.0246e-04
+reject: 1  
+ L2 error  1.9007e-03  prev  2.0246e-03 update  2.0246e-04
+reject: 2  
+ L2  1.9007e-04  tol  1.0000e-05  
+ LL2/prev   5.2125e-05  TOL   1.9007e-04    1.9007e-04
+ L2 error  1.5929e-03  prev  1.9007e-03 update  1.9007e-04
+ L2  1.5929e-04  tol  1.0000e-05  
+ LL2/prev   1.2219e-04  TOL   1.5929e-04    1.5929e-04
+ L2 error  8.7397e-04  prev  1.5929e-03 update  1.5929e-04
+ L2  8.7397e-05  tol  1.0000e-05  
+ LL2/prev   2.2784e-04  TOL   8.7397e-05    8.7397e-05
+ L2 error  8.5427e-04  prev  8.7397e-04 update  8.7397e-05
+reject: 1  
+ L2 error  1.0252e-03  prev  8.7397e-04 update  8.7397e-05
+reject: 2  
+ L2 error  8.7216e-04  prev  8.7397e-04 update  8.7397e-05
+reject: 3  
+ L2  7.5503e-05  tol  1.0000e-05  
+ LL2/prev   4.7968e-05  TOL   7.5503e-05    7.5503e-05
+ L2 error  6.0859e-04  prev  7.5503e-04 update  7.5503e-05
+ L2  6.0859e-05  tol  1.0000e-05  
+ LL2/prev   5.6990e-05  TOL   6.0859e-05    6.0859e-05
+ L2 error  5.4791e-04  prev  6.0859e-04 update  6.0859e-05
+reject: 1  
+ L2 error  4.8430e-04  prev  6.0859e-04 update  6.0859e-05
+ L2  4.8430e-05  tol  1.0000e-05  
+ LL2/prev   4.8045e-05  TOL   4.8430e-05    4.8430e-05
+ L2 error  4.1385e-04  prev  4.8430e-04 update  4.8430e-05
+ L2  4.1385e-05  tol  1.0000e-05  
+ LL2/prev   2.8255e-05  TOL   4.1385e-05    4.1385e-05
+ L2 error  2.3621e-04  prev  4.1385e-04 update  4.1385e-05
+ L2  2.3621e-05  tol  1.0000e-05  
+ LL2/prev   5.7529e-05  TOL   2.3621e-05    2.3621e-05
+ L2 error  1.8574e-04  prev  2.3621e-04 update  2.3621e-05
+ L2  1.8574e-05  tol  1.0000e-05  
+ LL2/prev   1.9390e-05  TOL   1.8574e-05    1.8574e-05
+ L2 error  1.5837e-04  prev  1.8574e-04 update  1.8574e-05
+ L2  1.5837e-05  tol  1.0000e-05  
+ LL2/prev   1.0963e-05  TOL   1.5837e-05    1.5837e-05
+ L2 error  1.4003e-04  prev  1.5837e-04 update  1.5837e-05
+ L2  1.4003e-05  tol  1.0000e-05  
+ LL2/prev   7.4878e-06  TOL   1.4003e-05    1.4003e-05
+ L2 error  1.2529e-04  prev  1.4003e-04 update  1.4003e-05
+ L2  1.2529e-05  tol  1.0000e-05  
+ LL2/prev   6.0522e-06  TOL   1.2529e-05    1.2529e-05
+ L2 error  1.1189e-04  prev  1.2529e-04 update  1.2529e-05
+ L2  1.1189e-05  tol  1.0000e-05  
+ LL2/prev   5.4941e-06  TOL   1.1189e-05    1.1189e-05
+ L2 error  9.6126e-05  prev  1.1189e-04 update  1.1189e-05
+ L2  9.6126e-06  tol  1.0000e-05  
+ LL2/prev   6.3402e-06  TOL   9.6126e-06    1.0000e-05
+ L2 error  8.3006e-05  prev  9.6126e-05 update  1.0000e-05
+ L2  8.3006e-06  tol  1.0000e-05  
+ LL2/prev   5.2901e-06  TOL   8.3006e-06    1.0000e-05
+ L2 error  7.2657e-05  prev  8.3006e-05 update  1.0000e-05
+ L2  7.2657e-06  tol  1.0000e-05  
+ LL2/prev   4.2020e-06  TOL   7.2657e-06    1.0000e-05
+ L2 error  6.7063e-05  prev  7.2657e-05 update  1.0000e-05
+reject: 1  
+ L2 error  6.5653e-05  prev  7.2657e-05 update  1.0000e-05
+reject: 2  
+ L2  6.5653e-06  tol  1.0000e-05  
+ LL2/prev   2.8903e-06  TOL   6.5653e-06    1.0000e-05
+ L2 error  5.8546e-05  prev  6.5653e-05 update  1.0000e-05
+reject: 1  
+ L2 error  5.7163e-05  prev  6.5653e-05 update  1.0000e-05
+reject: 2  
+ L2  5.7163e-06  tol  1.0000e-05  
+ LL2/prev   3.4376e-06  TOL   5.7163e-06    1.0000e-05
+ L2 error  5.1392e-05  prev  5.7163e-05 update  1.0000e-05
+reject: 1  
+ L2 error  4.4219e-05  prev  5.7163e-05 update  1.0000e-05
+ L2  4.4219e-06  tol  1.0000e-05  
+ LL2/prev   4.9308e-06  TOL   4.4219e-06    1.0000e-05
+ L2 error  3.9708e-05  prev  4.4219e-05 update  1.0000e-05
+reject: 1  
+ L2 error  3.6647e-05  prev  4.4219e-05 update  1.0000e-05
+reject: 2  
+ L2  3.6647e-06  tol  1.0000e-05  
+ LL2/prev   2.9891e-06  TOL   3.6647e-06    1.0000e-05
+ L2 error  3.2210e-05  prev  3.6647e-05 update  1.0000e-05
+reject: 1  
+ L2 error  3.1206e-05  prev  3.6647e-05 update  1.0000e-05
+reject: 2  
+ L2  3.1206e-06  tol  1.0000e-05  
+ LL2/prev   2.1784e-06  TOL   3.1206e-06    1.0000e-05
+ L2 error  2.9281e-05  prev  3.1206e-05 update  1.0000e-05
+reject: 1  
+ L2 error  2.2665e-05  prev  3.1206e-05 update  1.0000e-05
+reject: 2  
+ L2  2.2665e-06  tol  1.0000e-05  
+ LL2/prev   3.1477e-06  TOL   2.2665e-06    1.0000e-05
+ L2 error  1.8878e-05  prev  2.2665e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.8559e-05  prev  2.2665e-05 update  1.0000e-05
+reject: 2  
+ L2  1.8559e-06  tol  1.0000e-05  
+ LL2/prev   1.6111e-06  TOL   1.8559e-06    1.0000e-05
+ L2 error  1.7163e-05  prev  1.8559e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.6902e-05  prev  1.8559e-05 update  1.0000e-05
+reject: 2  
+ L2  1.6902e-06  tol  1.0000e-05  
+ LL2/prev   6.8626e-07  TOL   1.6902e-06    1.0000e-05
+ L2 error  1.5970e-05  prev  1.6902e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.5954e-05  prev  1.6902e-05 update  1.0000e-05
+reject: 2  
+ L2  1.5954e-06  tol  1.0000e-05  
+ LL2/prev   3.9997e-07  TOL   1.5954e-06    1.0000e-05
+ L2 error  1.5028e-05  prev  1.5954e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.4303e-05  prev  1.5954e-05 update  1.0000e-05
+reject: 2  
+ L2  1.4303e-06  tol  1.0000e-05  
+ LL2/prev   6.7860e-07  TOL   1.4303e-06    1.0000e-05
+ L2 error  1.3506e-05  prev  1.4303e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.3152e-05  prev  1.4303e-05 update  1.0000e-05
+reject: 2  
+ L2  1.3152e-06  tol  1.0000e-05  
+ LL2/prev   4.7940e-07  TOL   1.3152e-06    1.0000e-05
+ L2 error  1.2760e-05  prev  1.3152e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.2640e-05  prev  1.3152e-05 update  1.0000e-05
+reject: 2  
+ L2  1.2640e-06  tol  1.0000e-05  
+ LL2/prev   2.1796e-07  TOL   1.2640e-06    1.0000e-05
+ L2 error  1.2288e-05  prev  1.2640e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.2251e-05  prev  1.2640e-05 update  1.0000e-05
+reject: 2  
+ L2  1.2251e-06  tol  1.0000e-05  
+ LL2/prev   1.6626e-07  TOL   1.2251e-06    1.0000e-05
+ L2 error  1.1920e-05  prev  1.2251e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.1860e-05  prev  1.2251e-05 update  1.0000e-05
+reject: 2  
+ L2  1.1860e-06  tol  1.0000e-05  
+ LL2/prev   1.6679e-07  TOL   1.1860e-06    1.0000e-05
+ L2 error  1.1480e-05  prev  1.1860e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.0522e-05  prev  1.1860e-05 update  1.0000e-05
+reject: 2  
+ L2  1.0522e-06  tol  1.0000e-05  
+ LL2/prev   5.4735e-07  TOL   1.0522e-06    1.0000e-05
+ L2 error  1.0166e-05  prev  1.0522e-05 update  1.0000e-05
+reject: 1  
+ L2 error  1.0108e-05  prev  1.0522e-05 update  1.0000e-05
+reject: 2  
+ L2  1.0108e-06  tol  1.0000e-05  
+ LL2/prev   1.7603e-07  TOL   1.0108e-06    1.0000e-05
+ L2 error  9.8046e-06  prev  1.0108e-05 update  1.0000e-05
+reject: 1  
+ Leaving Solver with norm  9.8046e-06 <  1.0000e-05
+ TOTALS: accepted 35 reductions 1 
+
+ ---- LEAST SQUARES FIT STATUS 0 ----
+- BEST FIT: 59 CONTROL POINTS
+- RMS  4.1576e-07
+- EXIT AT ITERATION 57 ? 100 
+---------------------------------------
+ STAT =  0
+ EGADS Info: 1 Objects, 1 Reference in Use (of 2) at Close!
+ EGADS Info: 1 unattached Objects (1 References) removed!
+ TIME  = 1.257277  segs

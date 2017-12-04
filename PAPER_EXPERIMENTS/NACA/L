@@ -1,0 +1,41 @@
+ EG_open          = 0
+  Fitting for 2001 data points
+ Initial RMS using 4 CPS = 1.44450e-03
+ L2 error  4.3106e-04  prev  1.4445e-03 update  0.0000e+00
+ L2  4.3106e-05  tol  1.0000e-05  
+ LL2/prev   2.2638e-04  TOL   4.3106e-05    4.3106e-05
+ L2 error  3.1610e-04  prev  4.3106e-04 update  4.3106e-05
+ L2  3.1610e-05  tol  1.0000e-05  
+ LL2/prev   4.2585e-05  TOL   3.1610e-05    3.1610e-05
+ L2 error  2.3628e-04  prev  3.1610e-04 update  3.1610e-05
+ L2  2.3628e-05  tol  1.0000e-05  
+ LL2/prev   2.9864e-05  TOL   2.3628e-05    2.3628e-05
+ L2 error  1.2772e-04  prev  2.3628e-04 update  2.3628e-05
+ L2  1.2772e-05  tol  1.0000e-05  
+ LL2/prev   3.4124e-05  TOL   1.2772e-05    1.2772e-05
+ L2 error  7.2388e-05  prev  1.2772e-04 update  1.2772e-05
+ L2  7.2388e-06  tol  1.0000e-05  
+ LL2/prev   1.7849e-05  TOL   7.2388e-06    1.0000e-05
+ L2 error  5.2929e-05  prev  7.2388e-05 update  1.0000e-05
+ L2  5.2929e-06  tol  1.0000e-05  
+ LL2/prev   7.1968e-06  TOL   5.2929e-06    1.0000e-05
+ L2 error  3.8846e-05  prev  5.2929e-05 update  1.0000e-05
+ L2  3.8846e-06  tol  1.0000e-05  
+ LL2/prev   5.2187e-06  TOL   3.8846e-06    1.0000e-05
+ L2 error  1.4998e-05  prev  3.8846e-05 update  1.0000e-05
+ L2  1.4998e-06  tol  1.0000e-05  
+ LL2/prev   6.1989e-06  TOL   1.4998e-06    1.0000e-05
+ L2 error  6.7915e-06  prev  1.4998e-05 update  1.0000e-05
+reject: 1  
+ Leaving Solver with norm  6.7915e-06 <  1.0000e-05
+ TOTALS: accepted 8 reductions 0 
+
+ ---- LEAST SQUARES FIT STATUS 0 ----
+- BEST FIT: 13 CONTROL POINTS
+- RMS  6.7915e-06
+- EXIT AT ITERATION 9 ? 100 
+---------------------------------------
+ STAT =  0
+ EGADS Info: 1 Objects, 1 Reference in Use (of 2) at Close!
+ EGADS Info: 1 unattached Objects (1 References) removed!
+ TIME  = 0.096940  segs

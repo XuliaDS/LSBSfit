@@ -1,8 +1,8 @@
 close all
 clear all
-plotWiggle = 1
-plotNaca   = 0
-plotSnake  = 0
+plotWiggle = 0
+plotNaca   = 1
+plotSnake  = 1
 
 
 

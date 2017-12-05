@@ -1,89 +1,122 @@
- \section{B-splines and Fitting}
- Here we only provide basic details on B-spline functions and refer the reader to 
- \cite{nurbs_book, deboor2001practical, schumaker2015spline} for further discussion. 
- Given a knot sequence $U=\left\{u_0,\ldots,u_m\right\}$ such that $u_i\leq u_{i+1},\  i=0,\ldots m-1$,
- the $i^{th}$ B-spline of degree $p$ can be defined through the recurrence formula:
+%  In the following, we will discuss the building blocks of our algorithm, namely 
+%   B-spline functions, least-squares curve fitting and the knot sequence problem. Then we provide a full description of our 
+%   algorithm 
+We begin by introducing B-spline functions, briefly discuss their components and provide formulas for their 
+computation. We assume that the reader is familiar with these functions and full details can be found in 
+ \cite{nurbs_book, deboor2001practical, schumaker2015spline}. 
+  \subsection*{B-splines and Least Squares Approximations}
+% Here we provide formulas for computing B-splines together with a brief discussion of its components  
+% and for full details, we refer the reader to .
+ Given a knot sequence $U=\left\{u_0,\ldots,u_r\right\}$ such that $u_i\leq u_{i+1},\  i=0,\ldots r-1$, we define 
+ the $i^{th}$ B-spline of degree $p$ through the recurrence formula:
  \begin{align}
  N_{i,0} &= \left\{ \begin{aligned}
                     1 \quad &\text{if } u_i\leq t\leq u_{i+1}\\
                     0 \quad &\text{otherwise }
                    \end{aligned}\right. \\
-N_{i,p} &= \frac{t - u_i}{u_{i+p} - u_i}N_{i,p-1}(t) +  \frac{u_{i+p+1} - t}{u_{i+p+1} - u_{i+1}}N_{i+1,p-1}(t). 
+N_{i,p} &= \frac{t - u_i}{u_{i+p} - u_i}N_{i,p-1}(t) +  \frac{u_{i+p+1} - t}{u_{i+p+1} - u_{i+1}}N_{i+1,p-1}(t).
  \end{align}
- A B-spline curve is defined as a combination of B-splines of the form:
+ B-spline curves are a combination of these functions driven by a control polygon:
  \begin{equation}
   C(t) = \sum_{i=0}^n N_{i,p}(t) \textbf P_i, \quad  \textbf P_i = \text{control point}.
  \end{equation}
 From this definition and as shown in Figure \ref{fig:bspline_sine}, 
 it is clear that the approximation degree, 
 knot sequence and control polygon fully determine a B-spline curve.
+ 
 \begin{figure}
  \centering
- \includegraphics[width =\textwidth]{sineBspline-crop}
+ \includegraphics[width =\textwidth]{sinePlot/sineBspline-crop}
  \caption{\label{fig:bspline_sine} A cubic B-spline curve approximation to a piece of a sine wave employing nine
  control poinst ant the knot sequence 
  $U=\left\{u_0,\dots,u_{12}\right\}$.}
 \end{figure}
 
 
-\subsection{Linear Least Squares Approximation}
-Given a data set $\left\{X_i\right\}_{i=1}^m$ and $n>m$ control points, 
-we look for the B-spline curve 
-\begin{equation}\label{eq:least_squares_equation1}
- C(t) = \sum_{i=0}^n N_{i,p}(t) \textbf P_i,\quad t\in[0,1]
+Assume we are given a data set $\left\{X_i\right\}_{i=1}^m$, and a fixed knot sequence $U=\{u_0,\ldots,u_r\}$. 
+Then, we 
+look for the B-spline curve 
+\begin{equation}
+ C(t) = \sum_{i=0}^{n=r-p-1} N_{i,p}(t) \textbf P_i,\quad t\in[0,1]
 \end{equation}
 that approximates the data in the least squares sense:
-\begin{enumerate}
- \item $ C(0)= X_0, \quad \  C(1) = X_m\quad \text{and}$
- \item $\sum _{k= 1}^{m-1}\left | X_k - C(t_k)\right|^2\quad \text{is a minimum with respect }\mathbf P_i.$
-\end{enumerate}
-Here the $t_k$ are associated to each data point ($X_k$) 
-by a previously chosen parametrization. 
+\begin{align}\label{eq:least_squares_problem}
+ & C(0)= X_0, \quad \  C(1) = X_m\quad \text{and}\\
+ &\sum _{k= 1}^{m-1}\left | X_k - C(t_k)\right|^2\quad \text{is a minimum with respect }\mathbf P_i.
+\end{align}
+Here the $t_k$ are associated to each data point ($X_k$) by a previously chosen parametrization 
+which in our case corresponds to the centripetal method \cite{lee1989}:
 
-The solution to this problem can be found as follows \cite[Ch. 9.4.1]{nurbs_book}:
-let 
-$$
+\begin{align}
+ t_0 &= 0,\quad t_m = 1\\
+ t_k &= t_{k-1} + \frac{\sum_{i=1}^{k}\sqrt{ |X_i - X_{i-1}|}}{\sum_{i = 1} ^ m \sqrt{|X_i- X_{i-1}|}}, \quad k = 1,\ldots,m-1.
+\end{align}
+Other parametrization models such as uniform \cite{} or chord-length \cite{} and more recently \cite{} may be used. However, 
+our results suggested that the centripetal choice leads consistently to a better approximation. 
+
+
+The solution to equation \eqref{eq:least_squares_problem} can be found as follows \cite[Ch. 9.4.1]{nurbs_book}. 
+Let  
+\begin{equation}
  R_k = Q_k - N_{0,p}(t_k)\cdot Q_0 - N_{m,p}(t_k)\cdot Q_m,  \quad k = 1,\ldots, m-1.
-$$
-Since the B-spline knots are fixed, minimizing equation \eqref{eq:least_squares_equation1} gives:
-\begin{equation}\label{eq:linear_least_squares_solver}
- \sum_{i=1}^{n-1} \left(N_{\ell, p}(t_k)N_{i,p}(t_k)\right)P_i= \sum_{k=1}^{m-1}N_{\ell,[}(t_k)R_k, \quad \ell= 1\ldots, n-1
 \end{equation}
- which produces a determined system of equations that can be solved applying
- any linear matrix solver. The only restrictions on the knot-sequence is the Whitney-condition:
- 
-The downside of a solver of this kind is that 
-it assumes prior knowledge of the ``correct'' number of control points as well as the knot 
-location. In order to overcome this, we propose an algorithm which strategically inserts new knots as part of an 
-error controlled iterative scheme. We wish to remmark that the optimization function remains linear and as a 
-function of the control points only. The knot sequence increases within each iteration 
-and is based on the error bisection approach presented next. 
- 
-\subsubsection{Knot Placement}\ref{sec:knot_placment}
-A suitable knot sequence must ensure that each span contains at least one $t_k$ value so that \eqref{eq:linear_least_squares_solver} is well posed. 
-We start with the minimum number of control points ($n = p$) and the following \emph{clamped} knot sequence 
-$U=\{0,\underbrace{\ldots}_{p-1},0,1,\underbrace{\ldots}_{p-1},1\}$. 
+Since the B-spline knots are fixed, minimizing this equation gives:
+\begin{equation}\label{eq:linear_least_squares_solver}
+ \sum_{i=1}^{n-1} \left(N_{\ell, p}(t_k)N_{i,p}(t_k)\right)P_i= \sum_{k=1}^{m-1}N_{\ell,p}(t_k)R_k, \quad \ell= 1\ldots, n-1
+\end{equation}
+ \begin{note}\label{note:sw_cond}
+The parametrization should be reflected in the knot distribution. If it satisfies the 
+Schoenberg-Whitney condition 
+\begin {equation}
+ u_i < t_k < u_{i+k},\quad i = 1,\ldots,m ,
+\end {equation}
+then the matrix in \eqref{} has full rank and can be solved applying any linear matrix solver. Hence, each
+ span must contain at least one $t_k$. 
+\end{note}
 
- Then, at each iteration, we find the span with greatest squared error: 
- $$e_k = \frac{1}{N_k}\sum_{i=1}^{N_k} (C(t_i) - X_i)^2,\quad N_k = \# t_i\in [u_k, u_{k+1}), i=1,\ldots,m-1.$$
-and look for the first $t_i$ such that $t_i >= \frac{e_k}{2}$ and we insert a knot $\tilde u = 0.5(t_i+t_{i+1})$. 
-This knot choice ensures that the spans $[u_i, u),\ [u,u_{i+1})$ are non empty. Alternatively, as proposed in \cite{}, one could find all the spans that are 
-above certain tolerance and insert a new knot in between. However, this leads to an excessive number of control points since it is not taken account the fact 
-that each span has impact in more than one control point. 
-Furthermore, a span bisection does not account for the error distribution within the span nor 
-the fact that it can produce empty spans. Our results suggest that a strategic knot insertion consistently improves the error as shown in Figure \ref{fig:}. 
+The motivation for introducing iterative knot insertion is that equation \eqref{eq:least_squares_problem} 
+requires \emph{a priori} knowledge on the amount of control points needed which is often unavailable. Furthermore, inserting new 
+knots locally, at regions with high error, can  lead to a better approximation as shown in our results 
+section ($e.g.$ Figure \ref{}). 
+\subsubsection{Knot Placement}\label{sec:knot_placment}
+Given an approximation degree ($p$), 
+the knot insertion technique presented here starts with a minimum knot sequence
+$U=\{0,\underbrace{\ldots}_{p-1},0,1,\underbrace{\ldots}_{p-1},1\}$.
+%\begin{equation}\label{eq:clamped_knots}
+%
+%\end{equation}
+Then, each iteration consists of finding the span with greatest weighted error: 
+ $$e_k = \frac{1}{N_k}\sum_{i=1}^{N_k} (C(t_i) - X_i)^2,\quad N_k = \# t_i\in [u_k, u_{k+1}),\ i=1,\ldots,m-1, $$
+ where the distance function is computed as follows:
+ \begin{equation}\label{eq:distance_projection}
+  C(t_i) - X_i = \min_{t\in[0,1]} |C(t) -  X_i|,
+ \end{equation}
+$i.e.$, the \emph{actual} distance to the data. The new knot position is determined by
+ the first $t_i$ such that $t_i \geq \frac{e_k}{2}$ and takes
+ the value $\tilde u = \frac{t_i+t_{i+1}}{2}$. 
+ This knot choice ensures that the split $[u_i, \tilde u),\ [\tilde u,u_{i+1})$ are non empty spans 
+ (see Note \ref{note:sw_cond}). 
 
-It is well known that as the number of control points reach the number of data points ($n=m$), the spline curve might develop wiggles. 
-Hence, the knot inserction process needs to be controlled so that ``locally'', the approximation process does not attempt interpolate each data point. 
-This is accomplished by introducing the following constraints: the new knot has to be at a \emph{minimum} distance from its neighboring knots and initially, 
-the minimum $t_k$'s per span should be set greater than one. We say initially because for sharp features with few data support, this condition may need to be relaxed in order 
-to for example, detect a cusp.
- However, such artifacts may not be visible to the Least-Squares solver since curve has is smooth along the chosen parametrization 
-. Figure \ref{fig:bspline_wiggle} illustrates this phenomena: the curve values that 
- are fed to the solver correspond to the centripetal parametrization (smooth) and the uniform values correspond to 
- sampling the curve uniformly around the resulting curve. 
- Observe how the Bspline wiggles in between the centripetal knots. This is because in that region, almost all the 
- knot spans contain only one $t-value$ resulting in a zig-zagging control polygon.
+ 
+ 
+ In \cite[Ch. ]{nurbs_book}, 
+ it was propsed to find all the spans that are above a targeted tolerance and introduce a knot at the highest error. 
+ However, this strategy does not account  
+ for the fact that each knot has impact in more than one control point and it may lead to an excessive number
+  of control points. It is well known that spline functions develop wiggles when employing a high number of control points; 
+   if high error regions have few data support, iterative approximation may lead to ``jammed knots'' which might lead to local oscillations
+   when each span is only supported by one data point. Such artifacts may not be visible to the Least-Squares solver 
+   which is evaluating only at the parametrization values. This is shown in Figure \ref{fig:bspline_wiggle} where the resulting curve is shown at the values used during minimization (centripetal) 
+and over an uniform sampling where we can see that wiggles have developped. This is because in that region, almost all the 
+ knot spans contain only one $t-$value forcing the curve to interpolate through the data and producing a zig-zagging control polygon. 
+   Finally, notice that for each data point $X_k$, 
+   the error function from equation \eqref{eq:distance_projection} finds a parameter along the curve 
+    taht doesn't necessarily coincide with $t_k$. Hence, when placing the knot at the maximum $t_k$, this doesn't reflect the actual position of this maximum. 
+    Figure \ref{} shows an example of applying knot insertion based on weighted error, maximum error and mid point 
+ positioning. We can see that the maximum error estrategy leads to worst results  and the mid point position results in a curve exhibitin 
+ higher oscillations. 
+ 
+ 
 
 
 the resulting approximating B-spline curve may develop undesirable wiggles or artificial loops (self-intersections). 

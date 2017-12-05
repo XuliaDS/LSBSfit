@@ -95,11 +95,29 @@ ax.YColor = 'w'; % Blue
 hold off
 rect = [0.5, 0.5, .4, .4]
 
-h = legend({'Uniform', 'Centripetal', 'Control Polygon', 'Input Data'},'FontSize',16,'Interpreter','latex','Position',rect);
+h = legend({'Uniform', 'Centripetal', 'Control Polygon', 'Input Data'},'FontSize',18,'Interpreter','latex','Position',rect);
 set(gca,'position',[0 0 1 1])
 axis off
 set(gca,'xtick',[],'ytick',[])
 print('wiggle_ALL','-dpdf','-besfit')
+
+figure(1111) 
+hold on
+h1 = plot (A(:,1),A(:,2), '.',  'markers', 7);
+h2 = plot (B(:,1), B(:,2), 'o',  'markers', 5);
+h3 = plot (C(:,1), C(:,2), '--k', 'markers', 3);
+
+ax = gca % Get handle to current axes.
+ax.XColor = 'w'; % Red
+ax.YColor = 'w'; % Blue
+hold off
+rect = [0.5, 0.5, .4, .4]
+
+set(gca,'position',[0 0 1 1])
+axis off
+set(gca,'xtick',[],'ytick',[])
+print('wiggle_FULL','-dpdf','-besfit')
+
 
 end
 %%

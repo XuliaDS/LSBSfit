@@ -64,75 +64,8 @@
  
  
  %section{Introduction}
- \section{Defining the Problem}
- Curve and surface modeling play a major role in Reverse Engineering during object reconstruction
-  through CAD software \cite{Ma1998, sarkar1991} or for CFD simulations involving moving
-  interfaces such as flame propagation problems \cite{malladi1995}. 
-  Usually, one has access only to a discrete (finite) data set 
-  and a smooth curve (surface) is needed in order to perform operations such as numerical integration or differentiation. 
-  Although not unique, the solution to this problem is generally sought as a spline curve (surface)  
-  that either interpolates the data or provides an approximation which is \emph{closest} to it.
-   An approximation \emph{fit} is desirable for experimental measurements or computational data 
-   which may be slightly inaccurate or noisy whereas an interpolating approach \cite{piegl1999,ma1995} 
-   is more suitable when
-   the data (or part of it) is known to be exact. This paper focuses on 
-   approximation techniques since the algorithm presented here was developed for 
-    curve reconstruction for numerical solutions on aircraft icing accretion \cite{}. 
-    
-    Splines are determined by the approximation degree, 
-    control polygon (net) and knot sequence. The ideal spline \emph{fit} is an approximation
-     that minimizes the error (under certain metric) employing a minimum number 
-     of knots (control points).  Unfortunately, this represents a great challenge since both the ``optimal'' number of control points 
-  and knot location are unknown and in general, it is not possible to derive explicit formulas \cite{jupp1978}.  
-  Thus, the solution is found by casting a suitable optimization problem, 
-  usually based on the least-squares minimization \cite{nurbs_book, deboor2001practical, schumaker2015spline}. 
-   The methodology proposed here attempts to solve the \emph{minimal} spline problem 
-    using a heuristic approach where knots are strategically introduced 
-   as part of an iterative scheme that drives the solution towards a desired accuracy. 
-      
-  The simplest solution to the spline least-squares optimization problem is to fix the 
-  knot sequence (number and distribution) alongside a suitable curve parametrization and solve a linear system for the 
-  control points \cite[Ch. 9.4]{nurbs_book}, \cite{deboor1968}. 
-  The usual parametrization choices are based on the chord-length or centripetal models  which 
-  have proven to improve the quality of the approximation, 
-  especially for detection of sharp features such as ``cusps'' \cite{hoschek1988,speer1998,lee1989, ma1995}. 
-  However,  a fixed knot sequence may be too oversimplified and 
-  shape manipulation (knot insertion/removal) \cite{piegl1989, boehm1980, goldman1992} 
-   can be introduced as part of an error controlled iterative scheme. For example, 
-    continuously inserting knots and applying least-squares minimization 
-   ($i.e.$ finding new control points) until a specified tolerance is attained
-    \cite{piegl2000, park2007}. Alternatively, one can starting with a large number 
-    of control points and remove knots successively as long as the 
-     quality of the approximation is not destroyed \cite{lyche1987, tiller1992}. 
-   Ultimately, the problem can be formulated as a non-linear optimization, allowing 
-   ``free knots'' as part of the least-squares solution \cite{schwetlick1995least, beliakov2004}. 
-   The free-knots problem generally yields to better results but this occurs at the expense 
-   of computational efficiency \cite{randrzanarivony2002} and in addition, it can result 
-   in many stationary points \cite{jupp1978}.
-   
-   This paper presents a new algorithm from the \emph{knot insertion} category; 
-   starting with a minimum number of knots, we look for the span with greatest weighted error, 
-   insert a new knot and find the control points using a linear least-squares solver. 
-   If the new approximation is above the tolerance step, the knot sequence is updated. 
-   Otherwise, the step is rejected and a new knot is inserted at the next  "high-error" span. 
-   When no new knots overcome the step control, the scheme proceeds with the "best so far", 
-   tags the knot location and when a valid step is found, 
-   attempts to remove any potential redundant knot. 
-    The algorithm stops if either the global error hits certain tolerance (1), it has 
-    reached the maximum number of iterations (2) or no new knots can 
-    improve the current approximation (3). 
-  Although we cannot prove that this strategy is optimal,
-  our results suggest that this knot distribution leads to accurate results
-  remaining at relatively low computational costs, thus becoming suitable  for engineering applications. 
-  
-   
-   In the following sections we discuss the different aspects of our method. Section \ref{} defines 
-   the algorithm building blocks: Bspline functions, 
-   least squares approximation and the ``best knot'' sequence problem. 
-   In section \ref{} implementation details are given and section 
-   \ref{} shows the results of applying this tool on several data  types 
-   including curve fitting on noisy noisy data as well as ice-layer reconstruction. 
-   Finally,  in section \ref{}  we conclude and highlight the areas for improvement as well as future applications.
+ \section{Introduction}
+ \input{introduction}
  
  
    \section{Background}

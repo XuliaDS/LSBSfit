@@ -1,13 +1,16 @@
 %  In the following, we will discuss the building blocks of our algorithm, namely 
 %   B-spline functions, least-squares curve fitting and the knot sequence problem. Then we provide a full description of our 
 %   algorithm 
-We begin by introducing B-spline functions, briefly discuss their components and provide formulas for their 
-computation. We assume that the reader is familiar with these functions and full details can be found in 
+We begin by introducing B-spline functions together with formulas for their computation and 
+describe the components of a B-spline curve. 
+We assume that the reader is familiar with these functions and full details can be found in 
  \cite{nurbs_book, deboor2001practical, schumaker2015spline}. 
   \subsection*{B-splines and Least Squares Approximations}
 % Here we provide formulas for computing B-splines together with a brief discussion of its components  
 % and for full details, we refer the reader to .
- Given a knot sequence $U=\left\{u_0,\ldots,u_r\right\}$ such that $u_i\leq u_{i+1},\  i=0,\ldots r-1$, we define 
+B-spline curves are fully determined by the approximation degree, 
+knot sequence and control polygon. Given a knot sequence $U=\left\{u_0,\ldots,u_r\right\}$ satisfying 
+ $u_i\leq u_{i+1},\  i=0,\ldots r-1$, we define 
  the $i^{th}$ B-spline of degree $p$ through the recurrence formula:
  \begin{align}
  N_{i,0} &= \left\{ \begin{aligned}
@@ -16,57 +19,49 @@ computation. We assume that the reader is familiar with these functions and full
                    \end{aligned}\right. \\
 N_{i,p} &= \frac{t - u_i}{u_{i+p} - u_i}N_{i,p-1}(t) +  \frac{u_{i+p+1} - t}{u_{i+p+1} - u_{i+1}}N_{i+1,p-1}(t).
  \end{align}
- B-spline curves are a combination of these functions driven by a control polygon:
- \begin{equation}
-  C(t) = \sum_{i=0}^n N_{i,p}(t) \textbf P_i, \quad  \textbf P_i = \text{control point}.
- \end{equation}
-From this definition and as shown in Figure \ref{fig:bspline_sine}, 
-it is clear that the approximation degree, 
-knot sequence and control polygon fully determine a B-spline curve.
- 
-\begin{figure}
- \centering
- \includegraphics[width =\textwidth]{sinePlot/sineBspline-crop}
- \caption{\label{fig:bspline_sine} A cubic B-spline curve approximation to a piece of a sine wave employing nine
- control poinst ant the knot sequence 
- $U=\left\{u_0,\dots,u_{12}\right\}$.}
-\end{figure}
-
-
-Assume we are given a data set $\left\{X_i\right\}_{i=1}^m$, and a fixed knot sequence $U=\{u_0,\ldots,u_r\}$. 
-Then, we 
+ Given a data set $\left\{X_i\right\}_{i=1}^m$, and a fixed knot sequence $U=\{u_0,\ldots,u_r\}$, 
+ we 
 look for the B-spline curve 
 \begin{equation}
- C(t) = \sum_{i=0}^{n=r-p-1} N_{i,p}(t) \textbf P_i,\quad t\in[0,1]
+ C(t) = \sum_{i=0}^{n=r-p-1} N_{i,p}(t)\cdot \mathbf P_i,\quad \mathbf P_i = \text{control point} ,\quad t\in[0,1]
 \end{equation}
 that approximates the data in the least squares sense:
 \begin{align}\label{eq:least_squares_problem}
  & C(0)= X_0, \quad \  C(1) = X_m\quad \text{and}\\
  &\sum _{k= 1}^{m-1}\left | X_k - C(t_k)\right|^2\quad \text{is a minimum with respect }\mathbf P_i.
 \end{align}
-Here the $t_k$ are associated to each data point ($X_k$) by a previously chosen parametrization 
+Figure \ref{fig:bspline_sine} shows an example of a B-spline curve approximating a planar sine-wave.
+The pairs $(t_k,X_k)$ are associated through a well-suited parametrization 
 which in our case corresponds to the centripetal method \cite{lee1989}:
-
 \begin{align}
  t_0 &= 0,\quad t_m = 1\\
- t_k &= t_{k-1} + \frac{\sum_{i=1}^{k}\sqrt{ |X_i - X_{i-1}|}}{\sum_{i = 1} ^ m \sqrt{|X_i- X_{i-1}|}}, \quad k = 1,\ldots,m-1.
+ t_k &= t_{k-1} + \frac{\sqrt{ |X_k - X_{k-1}|}}{\sum_{i = 1} ^ m \sqrt{|X_i- X_{i-1}|}}, \quad k = 1,\ldots,m-1.
 \end{align}
-Other parametrization models such as uniform \cite{} or chord-length \cite{} and more recently \cite{} may be used. However, 
-our results suggested that the centripetal choice leads consistently to a better approximation. 
+The centripetal model intends to capture sharp features on the data but alternatively, 
+one can use an uniform \cite{} parametrization, chord-length \cite{} 
+and more recently \cite{}. 
 
+\begin{figure}
+ \centering
+ \includegraphics[width =0.75\textwidth]{sinePlot/sineBspline-crop}
+ \caption{\label{fig:bspline_sine} A cubic B-spline curve approximation to a piece of a sine wave employing nine
+ control points ant the knot sequence 
+ $U=\left\{u_0,\dots,u_{12}\right\}$.}
+\end{figure}
+ 
 
 The solution to equation \eqref{eq:least_squares_problem} can be found as follows \cite[Ch. 9.4.1]{nurbs_book}. 
 Let  
 \begin{equation}
  R_k = Q_k - N_{0,p}(t_k)\cdot Q_0 - N_{m,p}(t_k)\cdot Q_m,  \quad k = 1,\ldots, m-1.
 \end{equation}
-Since the B-spline knots are fixed, minimizing this equation gives:
+Since the B-spline knots are fixed, minimizing for the control points gives:
 \begin{equation}\label{eq:linear_least_squares_solver}
- \sum_{i=1}^{n-1} \left(N_{\ell, p}(t_k)N_{i,p}(t_k)\right)P_i= \sum_{k=1}^{m-1}N_{\ell,p}(t_k)R_k, \quad \ell= 1\ldots, n-1
-\end{equation}
- \begin{note}\label{note:sw_cond}
-The parametrization should be reflected in the knot distribution. If it satisfies the 
-Schoenberg-Whitney condition 
+ \sum_{i=1}^{n-1} \left( \sum_{k=1}^{m-1} N_{\ell, p}(t_k)\cdot N_{i,p}(t_k)\right)\cdot\mathbf P_i= \sum_{k=1}^{m-1}N_{\ell,p}(t_k)R_k, \quad \ell= 1\ldots, n-1
+ \end{equation}
+which we write in matrix notation as $(N^TN)\mathbf P = R$.
+The Schoenberg
+Schoenberg-Whitney condition \cite{} implies that 
 \begin {equation}
  u_i < t_k < u_{i+k},\quad i = 1,\ldots,m ,
 \end {equation}
